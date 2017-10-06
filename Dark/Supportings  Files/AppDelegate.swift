@@ -8,6 +8,9 @@
 
 import UIKit
 import Firebase
+import FirebaseDatabase
+
+var ref : DatabaseReference = Database.database().reference()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

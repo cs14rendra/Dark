@@ -11,15 +11,16 @@
 		2CBC4B3F5800F24108066E61 /* Pods_DarkUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ABD91A41AB50185A5AD1512 /* Pods_DarkUITests.framework */; };
 		6C097373CB6E6C7816CFEDF0 /* Pods_DarkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3847BC77D3F154C87666D1F3 /* Pods_DarkTests.framework */; };
 		ED45FD031F86780C00747C07 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD021F86780C00747C07 /* AppDelegate.swift */; };
-		ED45FD051F86780C00747C07 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD041F86780C00747C07 /* ViewController.swift */; };
+		ED45FD051F86780C00747C07 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD041F86780C00747C07 /* SignUp.swift */; };
 		ED45FD081F86780C00747C07 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED45FD061F86780C00747C07 /* Main.storyboard */; };
 		ED45FD0A1F86780C00747C07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED45FD091F86780C00747C07 /* Assets.xcassets */; };
 		ED45FD0D1F86780C00747C07 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED45FD0B1F86780C00747C07 /* LaunchScreen.storyboard */; };
 		ED45FD181F86780C00747C07 /* DarkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD171F86780C00747C07 /* DarkTests.swift */; };
 		ED45FD231F86780C00747C07 /* DarkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD221F86780C00747C07 /* DarkUITests.swift */; };
 		EDA2CC891F867FCF0061B07B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED5B158E1F867E800061E3EE /* GoogleService-Info.plist */; };
-		EDA2CC8B1F869EDB0061B07B /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA2CC8A1F869EDB0061B07B /* SecondViewController.swift */; };
-		EDA2CC8E1F86AB730061B07B /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA2CC8D1F86AB730061B07B /* DetailViewController.swift */; };
+		EDA2CC8B1F869EDB0061B07B /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA2CC8A1F869EDB0061B07B /* DetailViewController.swift */; };
+		EDA2CC8E1F86AB730061B07B /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA2CC8D1F86AB730061B07B /* SignIn.swift */; };
+		EDE80DDD1F8773560051CED6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE80DDC1F8773560051CED6 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,7 +52,7 @@
 		EACA08CA21DA93262D6E18A1 /* Pods-Dark.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dark.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dark/Pods-Dark.debug.xcconfig"; sourceTree = "<group>"; };
 		ED45FCFF1F86780B00747C07 /* Dark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED45FD021F86780C00747C07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		ED45FD041F86780C00747C07 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		ED45FD041F86780C00747C07 /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
 		ED45FD071F86780C00747C07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ED45FD091F86780C00747C07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED45FD0C1F86780C00747C07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -63,8 +64,9 @@
 		ED45FD221F86780C00747C07 /* DarkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkUITests.swift; sourceTree = "<group>"; };
 		ED45FD241F86780C00747C07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ED5B158E1F867E800061E3EE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		EDA2CC8A1F869EDB0061B07B /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
-		EDA2CC8D1F86AB730061B07B /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		EDA2CC8A1F869EDB0061B07B /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		EDA2CC8D1F86AB730061B07B /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
+		EDE80DDC1F8773560051CED6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,12 +146,11 @@
 			isa = PBXGroup;
 			children = (
 				ED5B158E1F867E800061E3EE /* GoogleService-Info.plist */,
-				ED45FD021F86780C00747C07 /* AppDelegate.swift */,
-				EDA2CC8C1F86AB5A0061B07B /* Controller */,
-				ED45FD061F86780C00747C07 /* Main.storyboard */,
-				ED45FD091F86780C00747C07 /* Assets.xcassets */,
-				ED45FD0B1F86780C00747C07 /* LaunchScreen.storyboard */,
 				ED45FD0E1F86780C00747C07 /* Info.plist */,
+				EDE80DD91F876B780051CED6 /* Supportings  Files */,
+				EDE80DDE1F8774CC0051CED6 /* Model */,
+				EDA2CC8C1F86AB5A0061B07B /* Controller */,
+				EDE80DDA1F876BA70051CED6 /* View */,
 			);
 			path = Dark;
 			sourceTree = "<group>";
@@ -175,11 +176,37 @@
 		EDA2CC8C1F86AB5A0061B07B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				ED45FD041F86780C00747C07 /* ViewController.swift */,
-				EDA2CC8A1F869EDB0061B07B /* SecondViewController.swift */,
-				EDA2CC8D1F86AB730061B07B /* DetailViewController.swift */,
+				ED45FD041F86780C00747C07 /* SignUp.swift */,
+				EDA2CC8D1F86AB730061B07B /* SignIn.swift */,
+				EDA2CC8A1F869EDB0061B07B /* DetailViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		EDE80DD91F876B780051CED6 /* Supportings  Files */ = {
+			isa = PBXGroup;
+			children = (
+				ED45FD021F86780C00747C07 /* AppDelegate.swift */,
+				ED45FD091F86780C00747C07 /* Assets.xcassets */,
+			);
+			path = "Supportings  Files";
+			sourceTree = "<group>";
+		};
+		EDE80DDA1F876BA70051CED6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ED45FD061F86780C00747C07 /* Main.storyboard */,
+				ED45FD0B1F86780C00747C07 /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		EDE80DDE1F8774CC0051CED6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EDE80DDC1F8773560051CED6 /* User.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -358,9 +385,20 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Dark/Pods-Dark-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -388,13 +426,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DarkUITests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5657856E2CF6C65387117947 /* [CP] Check Pods Manifest.lock */ = {
@@ -403,13 +444,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DarkTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		803BC7ACE6B219285C6DB511 /* [CP] Embed Pods Frameworks */ = {
@@ -448,13 +492,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Dark-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -464,10 +511,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EDA2CC8B1F869EDB0061B07B /* SecondViewController.swift in Sources */,
-				ED45FD051F86780C00747C07 /* ViewController.swift in Sources */,
+				EDE80DDD1F8773560051CED6 /* User.swift in Sources */,
+				EDA2CC8B1F869EDB0061B07B /* DetailViewController.swift in Sources */,
+				ED45FD051F86780C00747C07 /* SignUp.swift in Sources */,
 				ED45FD031F86780C00747C07 /* AppDelegate.swift in Sources */,
-				EDA2CC8E1F86AB730061B07B /* DetailViewController.swift in Sources */,
+				EDA2CC8E1F86AB730061B07B /* SignIn.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

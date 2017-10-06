@@ -8,6 +8,11 @@ target 'Dark' do
   # Pods for Dark
 pod 'Firebase/Core'
 pod 'Firebase/Auth'
+pod 'Firebase/Database'
+pod 'Bolts'
+pod 'FBSDKCoreKit'
+pod 'FBSDKLoginKit'
+
 
   target 'DarkTests' do
     inherit! :search_paths
