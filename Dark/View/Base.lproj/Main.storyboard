@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="th4-Eu-H2z">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WXT-lW-k0I">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -48,6 +48,7 @@
                                 </state>
                                 <connections>
                                     <action selector="okButton:" destination="th4-Eu-H2z" eventType="touchUpInside" id="ezT-B8-xmy"/>
+                                    <segue destination="uLY-cG-60U" kind="showDetail" identifier="show" action="showViewController:sender:" id="MJN-1w-bOx"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="otQ-5M-iy8">
@@ -69,12 +70,26 @@
                     <connections>
                         <outlet property="email" destination="F1j-E6-PNp" id="O1g-9D-kTC"/>
                         <outlet property="password" destination="SxS-g1-wZj" id="AXO-Bi-7Vj"/>
-                        <segue destination="Ba8-dd-vDi" kind="showDetail" identifier="show" action="showViewController:sender:" id="6uN-Ck-hWS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wqd-gE-JSs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="204" y="126.38680659670166"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="GzA-Lz-R8z">
+            <objects>
+                <viewController id="uLY-cG-60U" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YW9-Ey-qEI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="Ujh-mA-WAF"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GnL-CV-PNN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="930" y="126"/>
         </scene>
         <!--Second View Controller-->
         <scene sceneID="uut-jP-r4H">
@@ -180,7 +195,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mZf-3O-a8Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1045.5999999999999" y="142.57871064467767"/>
+            <point key="canvasLocation" x="1566" y="140"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="Xbe-YH-oke">
@@ -221,6 +236,7 @@
                                 </state>
                                 <connections>
                                     <action selector="okButton:" destination="5ie-uq-bHJ" eventType="touchUpInside" id="FVP-hM-yiU"/>
+                                    <segue destination="uLY-cG-60U" kind="showDetail" identifier="showDetail" id="P4K-qq-pp3"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rg9-vU-Kr1">
@@ -239,15 +255,62 @@
                     <connections>
                         <outlet property="email" destination="aVp-W3-z2W" id="DnB-Wd-JTE"/>
                         <outlet property="password" destination="teQ-d3-ThN" id="No4-Nq-9GW"/>
-                        <segue destination="Ba8-dd-vDi" kind="showDetail" identifier="showDetail" action="showViewController:sender:" id="YR6-nq-KNs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LPH-me-doZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="228" y="871"/>
         </scene>
+        <!--User View Controller-->
+        <scene sceneID="WVr-dE-7MY">
+            <objects>
+                <viewController id="WXT-lW-k0I" customClass="UserViewController" customModule="Dark" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4Hp-mp-6e0">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PoS-jc-Q6k">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="qrf-Er-PrY">
+                                    <size key="itemSize" width="201" height="200"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="vqx-8O-wYi" customClass="UserCell" customModule="Dark" customModuleProvider="target">
+                                        <rect key="frame" x="87" y="0.0" width="201" height="200"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="201" height="200"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                        <size key="customSize" width="201" height="200"/>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="WXT-lW-k0I" id="n2b-4m-U6s"/>
+                                    <outlet property="delegate" destination="WXT-lW-k0I" id="xXn-VS-Gzn"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="PoS-jc-Q6k" firstAttribute="trailing" secondItem="Z1x-xT-0a8" secondAttribute="trailing" id="GBV-1N-K7n"/>
+                            <constraint firstItem="PoS-jc-Q6k" firstAttribute="bottom" secondItem="Z1x-xT-0a8" secondAttribute="bottom" id="VKU-ow-D2f"/>
+                            <constraint firstItem="PoS-jc-Q6k" firstAttribute="top" secondItem="4Hp-mp-6e0" secondAttribute="top" id="gGX-h4-4Jg"/>
+                            <constraint firstItem="PoS-jc-Q6k" firstAttribute="leading" secondItem="Z1x-xT-0a8" secondAttribute="leading" id="ooQ-vm-gsi"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Z1x-xT-0a8"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fJ8-4R-hhY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1072.8" y="952.17391304347836"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="YR6-nq-KNs"/>
+        <segue reference="P4K-qq-pp3"/>
     </inferredMetricsTieBreakers>
 </document>

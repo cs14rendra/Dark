@@ -16,19 +16,21 @@ class SecondViewController: UIViewController {
     @IBOutlet var age: UITextField!
     @IBOutlet var name: UITextField!
     
-    var id : String?
+    var geofire : GeoFire!
+    var uid : String?
     var handle : AuthStateDidChangeListenerHandle?
     var userinJSONForm : [String : Any]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
             guard user != nil else {return}
-            self.id = user?.uid
+            self.uid = user?.uid
         })
     }
     
@@ -50,8 +52,10 @@ class SecondViewController: UIViewController {
         if JSONSerialization.isValidJSONObject(userinJSONForm!) {
             print("Valid User")
             print(userinJSONForm!)
-            guard  let id = self.id else {return}
-            ref.child("users").child(id).setValue(self.userinJSONForm)
+            guard  let uid = self.uid else {return}
+           // ref.child("users").child(id).setValue(self.userinJSONForm)
+            //self.updateLocation(forId: id)
+            
         }
         
     }
@@ -64,4 +68,11 @@ class SecondViewController: UIViewController {
             print(error.localizedDescription)
         }
     }
+    func updateLocation(forId id : String){
+        let location = CLLocation(latitude: CLLocationDegrees(12.00), longitude: CLLocationDegrees(17.00))
+        geofire = GeoFire(firebaseRef: ref.child("location"))
+        geofire.setLocation(location, forKey: uid)
+    }
+    
+    
 }
