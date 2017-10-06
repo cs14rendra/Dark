@@ -54,7 +54,7 @@ class SecondViewController: UIViewController {
             print(userinJSONForm!)
             guard  let uid = self.uid else {return}
            // ref.child("users").child(id).setValue(self.userinJSONForm)
-            //self.updateLocation(forId: id)
+            self.updateLocation(forId: uid)
             
         }
         
@@ -69,7 +69,7 @@ class SecondViewController: UIViewController {
         }
     }
     func updateLocation(forId id : String){
-        let location = CLLocation(latitude: CLLocationDegrees(12.00), longitude: CLLocationDegrees(17.00))
+        let location = CLLocation(latitude: CLLocationDegrees(12.00), longitude: CLLocationDegrees(17.000010))
         geofire = GeoFire(firebaseRef: ref.child("location"))
         geofire.setLocation(location, forKey: uid)
     }

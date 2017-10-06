@@ -13,22 +13,32 @@ private let reuseIdentifier = "Cell"
 
 class UserViewController: UIViewController {
     
+    @IBOutlet var mycollecion: UICollectionView!
     private let itemperRow : CGFloat = 3
     let numberofItem  = 14
     let sectionInset = UIEdgeInsets(top: 50, left: 20, bottom: 50, right: 20)
     var geoFire : GeoFire!
+    var locationData : [[String : CLLocation]] = [[String : CLLocation]]()
     override func viewDidLoad() {
         super.viewDidLoad()
         geoFire = GeoFire(firebaseRef: ref.child("location"))
         queryUsers()
+        print(locationData)
     }
     
     func queryUsers(){
-        let circleQuery = geoFire.query(at: CLLocation(latitude: 12, longitude: 17), withRadius: 3)
+        let circleQuery = geoFire.query(at: CLLocation(latitude: 12, longitude: 17), withRadius: 1000)
         circleQuery?.observe(.keyEntered, with: { (key, location) in
-            print(location)
+            //print("USERLOCATION IS :\(location)")
+            let data : [String: CLLocation] = [key! : location!]
+            self.locationData.append(data)
+            
         })
-        
+        circleQuery?.observeReady({
+            print("All DATA : \(self.locationData)")
+            self.mycollecion.reloadData()
+        })
+       
     }
 }
 
@@ -42,7 +52,7 @@ extension UserViewController : UICollectionViewDataSource{
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       return numberofItem
+       return self.locationData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
