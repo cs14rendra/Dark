@@ -9,18 +9,28 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
-
-var ref : DatabaseReference = Database.database().reference()
+import FirebaseAuth
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        UserDefaults.standard.register(defaults: ["logIn":false])
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        let mainController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainpage")
+        let signUpController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signUp")
+        
+        if UserDefaults.standard.bool(forKey: "logIn") == true {
+                self.window?.rootViewController = mainController
+            }else{
+                self.window?.rootViewController = signUpController
+            }
+      
+        self.window?.makeKeyAndVisible()
         return true
     }
 

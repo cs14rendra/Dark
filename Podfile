@@ -9,9 +9,13 @@ target 'Dark' do
 pod 'Firebase/Core'
 pod 'Firebase/Auth'
 pod 'Firebase/Database'
+pod 'Firebase/Storage'
 pod 'Bolts'
 pod 'FBSDKCoreKit'
 pod 'FBSDKLoginKit'
+pod 'XLPagerTabStrip', '~> 8.0'
+pod 'Firebase/Storage'
+pod 'JSQMessagesViewController'
 
 
   target 'DarkTests' do

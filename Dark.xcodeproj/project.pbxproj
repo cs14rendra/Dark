@@ -10,6 +10,7 @@
 		109D2F6B61A4F7CF5DE63C76 /* Pods_Dark.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A9BE61B80D3F7F78988403F /* Pods_Dark.framework */; };
 		2CBC4B3F5800F24108066E61 /* Pods_DarkUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ABD91A41AB50185A5AD1512 /* Pods_DarkUITests.framework */; };
 		6C097373CB6E6C7816CFEDF0 /* Pods_DarkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3847BC77D3F154C87666D1F3 /* Pods_DarkTests.framework */; };
+		ED2258B31F8B4DAF00C1BCD6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2258B21F8B4DAF00C1BCD6 /* Constants.swift */; };
 		ED45FD031F86780C00747C07 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD021F86780C00747C07 /* AppDelegate.swift */; };
 		ED45FD051F86780C00747C07 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD041F86780C00747C07 /* SignUp.swift */; };
 		ED45FD081F86780C00747C07 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED45FD061F86780C00747C07 /* Main.storyboard */; };
@@ -17,6 +18,8 @@
 		ED45FD0D1F86780C00747C07 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED45FD0B1F86780C00747C07 /* LaunchScreen.storyboard */; };
 		ED45FD181F86780C00747C07 /* DarkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD171F86780C00747C07 /* DarkTests.swift */; };
 		ED45FD231F86780C00747C07 /* DarkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD221F86780C00747C07 /* DarkUITests.swift */; };
+		ED69B0BF1F888E61003B25A1 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED69B0BE1F888E61003B25A1 /* PageViewController.swift */; };
+		ED69B0C11F88919F003B25A1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED69B0C01F88919F003B25A1 /* ChatViewController.swift */; };
 		EDA2CC891F867FCF0061B07B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED5B158E1F867E800061E3EE /* GoogleService-Info.plist */; };
 		EDA2CC8B1F869EDB0061B07B /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA2CC8A1F869EDB0061B07B /* DetailViewController.swift */; };
 		EDA2CC8E1F86AB730061B07B /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA2CC8D1F86AB730061B07B /* SignIn.swift */; };
@@ -28,6 +31,9 @@
 		EDE80E631F879E4D0051CED6 /* GFQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E5D1F879AC30051CED6 /* GFQuery.m */; };
 		EDE80E651F87AF470051CED6 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E641F87AF470051CED6 /* UserViewController.swift */; };
 		EDE80E671F87AFF70051CED6 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E661F87AFF70051CED6 /* UserCell.swift */; };
+		EDF97F061F88C6C9001F7023 /* channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF97F051F88C6C9001F7023 /* channel.swift */; };
+		EDF97F081F88C885001F7023 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF97F071F88C885001F7023 /* ChatTableViewCell.swift */; };
+		EDF97F0A1F88D96F001F7023 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF97F091F88D96F001F7023 /* MessageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +63,7 @@
 		A2C70541D5946EE747B66514 /* Pods-DarkUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DarkUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DarkUITests/Pods-DarkUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF9F90D193FBB6A6256F7AB9 /* Pods-DarkUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DarkUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DarkUITests/Pods-DarkUITests.release.xcconfig"; sourceTree = "<group>"; };
 		EACA08CA21DA93262D6E18A1 /* Pods-Dark.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dark.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dark/Pods-Dark.debug.xcconfig"; sourceTree = "<group>"; };
+		ED2258B21F8B4DAF00C1BCD6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		ED45FCFF1F86780B00747C07 /* Dark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED45FD021F86780C00747C07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ED45FD041F86780C00747C07 /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
@@ -71,6 +78,8 @@
 		ED45FD221F86780C00747C07 /* DarkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkUITests.swift; sourceTree = "<group>"; };
 		ED45FD241F86780C00747C07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ED5B158E1F867E800061E3EE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ED69B0BE1F888E61003B25A1 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		ED69B0C01F88919F003B25A1 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		EDA2CC8A1F869EDB0061B07B /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		EDA2CC8D1F86AB730061B07B /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		EDE80DDC1F8773560051CED6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -92,6 +101,10 @@
 		EDE80E5D1F879AC30051CED6 /* GFQuery.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GFQuery.m; sourceTree = "<group>"; };
 		EDE80E641F87AF470051CED6 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		EDE80E661F87AFF70051CED6 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		EDF97F041F88C15E001F7023 /* Dark.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dark.entitlements; sourceTree = "<group>"; };
+		EDF97F051F88C6C9001F7023 /* channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = channel.swift; sourceTree = "<group>"; };
+		EDF97F071F88C885001F7023 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
+		EDF97F091F88D96F001F7023 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +185,7 @@
 		ED45FD011F86780B00747C07 /* Dark */ = {
 			isa = PBXGroup;
 			children = (
+				EDF97F041F88C15E001F7023 /* Dark.entitlements */,
 				ED5B158E1F867E800061E3EE /* GoogleService-Info.plist */,
 				ED45FD0E1F86780C00747C07 /* Info.plist */,
 				EDE80DD91F876B780051CED6 /* Supportings  Files */,
@@ -200,12 +214,30 @@
 			path = DarkUITests;
 			sourceTree = "<group>";
 		};
-		EDA2CC8C1F86AB5A0061B07B /* Controller */ = {
+		ED69B0C21F88A16F003B25A1 /* Sign In */ = {
 			isa = PBXGroup;
 			children = (
 				ED45FD041F86780C00747C07 /* SignUp.swift */,
 				EDA2CC8D1F86AB730061B07B /* SignIn.swift */,
+			);
+			path = "Sign In";
+			sourceTree = "<group>";
+		};
+		ED97376B1F8A918E0002FDE7 /* UserDetails */ = {
+			isa = PBXGroup;
+			children = (
 				EDA2CC8A1F869EDB0061B07B /* DetailViewController.swift */,
+			);
+			name = UserDetails;
+			sourceTree = "<group>";
+		};
+		EDA2CC8C1F86AB5A0061B07B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				ED97376B1F8A918E0002FDE7 /* UserDetails */,
+				EDF97F0B1F88E861001F7023 /* Chat */,
+				ED69B0C21F88A16F003B25A1 /* Sign In */,
+				ED69B0BE1F888E61003B25A1 /* PageViewController.swift */,
 				EDE80E641F87AF470051CED6 /* UserViewController.swift */,
 				EDE80E661F87AFF70051CED6 /* UserCell.swift */,
 			);
@@ -217,6 +249,7 @@
 			children = (
 				ED45FD021F86780C00747C07 /* AppDelegate.swift */,
 				ED45FD091F86780C00747C07 /* Assets.xcassets */,
+				ED2258B21F8B4DAF00C1BCD6 /* Constants.swift */,
 			);
 			path = "Supportings  Files";
 			sourceTree = "<group>";
@@ -234,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				EDE80DDC1F8773560051CED6 /* User.swift */,
+				EDF97F051F88C6C9001F7023 /* channel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -274,6 +308,16 @@
 				EDE80E5D1F879AC30051CED6 /* GFQuery.m */,
 			);
 			path = Implementation;
+			sourceTree = "<group>";
+		};
+		EDF97F0B1F88E861001F7023 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				ED69B0C01F88919F003B25A1 /* ChatViewController.swift */,
+				EDF97F071F88C885001F7023 /* ChatTableViewCell.swift */,
+				EDF97F091F88D96F001F7023 /* MessageViewController.swift */,
+			);
+			name = Chat;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -355,6 +399,11 @@
 						CreatedOnToolsVersion = 9.0;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					ED45FD121F86780C00747C07 = {
 						CreatedOnToolsVersion = 9.0;
@@ -459,6 +508,9 @@
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/JSQMessagesViewController/JSQMessagesViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework",
+				"${BUILT_PRODUCTS_DIR}/XLPagerTabStrip/XLPagerTabStrip.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -467,6 +519,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQMessagesViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQSystemSoundPlayer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLPagerTabStrip.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -584,13 +639,19 @@
 				EDE80E611F879E4D0051CED6 /* GFGeoHash.m in Sources */,
 				EDE80E651F87AF470051CED6 /* UserViewController.swift in Sources */,
 				EDE80E631F879E4D0051CED6 /* GFQuery.m in Sources */,
+				EDF97F081F88C885001F7023 /* ChatTableViewCell.swift in Sources */,
 				ED45FD051F86780C00747C07 /* SignUp.swift in Sources */,
 				ED45FD031F86780C00747C07 /* AppDelegate.swift in Sources */,
 				EDE80E621F879E4D0051CED6 /* GFGeoHashQuery.m in Sources */,
 				EDE80E671F87AFF70051CED6 /* UserCell.swift in Sources */,
 				EDA2CC8E1F86AB730061B07B /* SignIn.swift in Sources */,
+				EDF97F061F88C6C9001F7023 /* channel.swift in Sources */,
+				ED69B0C11F88919F003B25A1 /* ChatViewController.swift in Sources */,
+				EDF97F0A1F88D96F001F7023 /* MessageViewController.swift in Sources */,
+				ED69B0BF1F888E61003B25A1 /* PageViewController.swift in Sources */,
 				EDE80E601F879E4D0051CED6 /* GFBase32Utils.m in Sources */,
 				EDE80E5F1F879E4D0051CED6 /* GeoFire.m in Sources */,
+				ED2258B31F8B4DAF00C1BCD6 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -758,6 +819,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Dark/Dark.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = G5A2E3RMNX;
 				INFOPLIST_FILE = Dark/Info.plist;
@@ -777,6 +839,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Dark/Dark.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = G5A2E3RMNX;
 				INFOPLIST_FILE = Dark/Info.plist;

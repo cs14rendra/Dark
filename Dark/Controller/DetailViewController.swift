@@ -40,6 +40,10 @@ class SecondViewController: UIViewController {
         Auth.auth().removeStateDidChangeListener(handle)
     }
 
+    
+    @IBAction func back(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
     @IBAction func save(_ sender: Any) {
         guard let name = name.text, let age = age.text , name != "", age != "" else {
             print("Empty Data")
@@ -47,32 +51,50 @@ class SecondViewController: UIViewController {
         }
         let iam = self.iam.isOn ? "male" : "Female"
         let interestedIn = self.interestedIn.isOn ? "male" : "Female"
-        let user = User(name: name, age: Int(age)!, iam: iam, InterestedIn: interestedIn)
+        let user = User(name: name, age: Int(age)!, iam: iam, InterestedIn: interestedIn, profilePicURL : "")
         userinJSONForm = user.userDictonary(user: user)
         if JSONSerialization.isValidJSONObject(userinJSONForm!) {
             print("Valid User")
             print(userinJSONForm!)
             guard  let uid = self.uid else {return}
-           // ref.child("users").child(id).setValue(self.userinJSONForm)
-            self.updateLocation(forId: uid)
+            userRef.child(uid).child("userInformation").setValue(self.userinJSONForm)
+           // self.updateLocation(forId: uid)
+            self.saveUserImage()
             
         }
         
     }
+    
+    func saveUserImage() {
+        let profilePicRef = storageRef.child(self.uid!).child("profilePic.png")
+        var imageDownloadURL = ""
+        userRef.child(self.uid!).child("profilePicURL").observeSingleEvent(of: .value) { (snapshot) in
+            let profilePicURL = snapshot.value as? String
+            if profilePicURL == "" {
+                let imageData = UIImagePNGRepresentation(UIImage(named: "boy")!)
+                profilePicRef.putData(imageData!, metadata: nil, completion: { (metaData, error) in
+                    guard error == nil else {return}
+                    imageDownloadURL = (metaData?.downloadURL()?.absoluteString)!
+                    print(imageDownloadURL)
+                    userRef.child(self.uid!).child("userInformation").child("profilePicURL").setValue(imageDownloadURL)
+                   
+                })
+            }
+        }
+  
+    }
     @IBAction func logOut(sender : UIButton){
         do{
             try Auth.auth().signOut()
+            UserDefaults.standard.set(false, forKey: "logIn")
             print("Looged out ")
-            self.dismiss(animated: true, completion: nil)
+            //self.dismiss(animated: true, completion: nil)
+            let singUpViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signUp")
+            let appdelegate = UIApplication.shared.delegate as! AppDelegate
+            appdelegate.window?.rootViewController = singUpViewController
         }catch{
             print(error.localizedDescription)
         }
     }
-    func updateLocation(forId id : String){
-        let location = CLLocation(latitude: CLLocationDegrees(12.00), longitude: CLLocationDegrees(17.000010))
-        geofire = GeoFire(firebaseRef: ref.child("location"))
-        geofire.setLocation(location, forKey: uid)
-    }
-    
-    
+
 }
