@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 import FirebaseAuth
+import UserNotifications
+import FirebaseMessaging
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,18 +21,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
-        UserDefaults.standard.register(defaults: ["logIn":false])
+        UserDefaults.standard.register(defaults: [Preferences.logIn.rawValue:false])
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let mainController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainpage")
         let signUpController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signUp")
         
-        if UserDefaults.standard.bool(forKey: "logIn") == true {
+        if UserDefaults.standard.bool(forKey: Preferences.logIn.rawValue) == true {
                 self.window?.rootViewController = mainController
             }else{
                 self.window?.rootViewController = signUpController
             }
       
         self.window?.makeKeyAndVisible()
+        self.registerForRemoteNotification()
         return true
     }
 
@@ -55,7 +58,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+  
 
 }
 
+extension AppDelegate {
+    func registerForRemoteNotification(){
+        Messaging.messaging().delegate = self
+        UNUserNotificationCenter.current().delegate = self
+        let authOptions : UNAuthorizationOptions = [.alert, .sound, .badge]
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { isAuthorise, error in
+            
+        }
+        
+        let application = UIApplication.shared
+        application.registerForRemoteNotifications()
+        self.suscribeForNews()
+    }
+    
+    func suscribeForNews(){
+        Messaging.messaging().subscribe(toTopic: "News")
+    }
+}
+extension AppDelegate : UNUserNotificationCenterDelegate{
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("recieved")
+        let userInfo = response.notification.request.content.userInfo
+        if let messgaeID = userInfo["gcm.message_id"]{
+            print("Message ID : \(messgaeID)")
+        }
+        completionHandler()
+    }
+}
+
+extension AppDelegate : MessagingDelegate{
+    
+    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+        print("Refreshed FIRToken : \(fcmToken)")
+    }
+    
+}

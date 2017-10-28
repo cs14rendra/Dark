@@ -11,69 +11,86 @@ import Firebase
 import FirebaseAuth
 import XLPagerTabStrip
 
-class userData{
-    var locationDictonary : [String: Any]?
-    var isLoaded : Bool?
-    
-    init(location : [String: Any], isload : Bool) {
-        self.locationDictonary = location
-        self.isLoaded = isload
-    }
-}
+import UserNotifications
+import FirebaseMessaging
 
 private let reuseIdentifier = "Cell"
+
+enum Gender : String{
+    case male
+    case female
+}
 
 class UserViewController: UIViewController, IndicatorInfoProvider {
     
     //PROPERTY
     @IBOutlet var mycollecion: UICollectionView!
-    @IBOutlet var activity: UIActivityIndicatorView!
+   
     
     //CONSTANTS
-    private let itemperRow : CGFloat = 1
-    let sectionInset = UIEdgeInsets(top: 5, left: 2, bottom: 5, right: 2)
+    private let itemperRow : CGFloat = 3.0
+    let sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     let locationManager = CLLocationManager()
-  
+    let activity : UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
+    
     // VARIABLES
     var geoFire : GeoFire!
-    var locationData : [userData?] = [userData?]()
+    var allKeysWithinRange : [String] = [String]()
+    var userData : [UserDataModel?] = [UserDataModel?]()
     var refreshControll : UIRefreshControl?
     var handleListener : AuthStateDidChangeListenerHandle?
-    var uid : String?
+    var uid = Auth.auth().currentUser?.uid
     var userlocation : CLLocation?
     var geofire : GeoFire!
     var isqueriedDetalis : Bool = false
     
+    
+    // ViewController Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addPulltoRefresh()
-        geoFire = GeoFire(firebaseRef: ref.child("location"))
+        UserDefaults.standard.set(true, forKey: Preferences.logIn.rawValue)
+        geoFire = GeoFire(firebaseRef: ref.child("location").child(Gender.male.rawValue))
         self.locationManager.startUpdatingLocation()
-        print(locationData)
-        
-    }
-    
-    // ViewController Life Cycle
+        self.configureActivity()
+  }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.requestAuthorization()
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        self.view.layoutIfNeeded()
-        handleListener = Auth.auth().addStateDidChangeListener({ (auth, user) in
-            guard user !=  nil else {return}
-            self.uid = user?.uid
-            //self.fetchlocalUserInfo(onUid: self.uid!)
+       
+        
+        Auth.auth().currentUser?.getIDToken(completion: { token, error in
+            guard error != nil else {
+                return
+            }
+            if let errorCode = AuthErrorCode(rawValue: error!._code){
+                switch errorCode {
+                case .userTokenExpired :
+                    self.showAlert(title: "Error!", message: "User need to login again", buttonText: "OK")
+                    self.resetApp()
+               case .userDisabled :
+                    self.showAlert(title: "Error!", message: "User Account Disabled", buttonText: "OK")
+                    self.resetApp()
+                default :
+                    self.showAlert(title: "Error", message: "Please Login Again", buttonText: "OK")
+                    self.resetApp()
+                }
+            }
         })
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        guard let handleListener = self.handleListener else {return}
-        Auth.auth().removeStateDidChangeListener(handleListener)
-    }
-    
+     }
+
     // Custom Method
+    
+    func configureActivity(){
+        activity.center = CGPoint(x: self.view.center.x, y: self.view.center.y - (self.view.bounds.size.height/4))
+        activity.color = UIColor.gray
+        self.view.insertSubview(activity, at: 1)
+        activity.hidesWhenStopped = true
+        activity.startAnimating()
+    }
     func requestAuthorization(){
         let status = CLLocationManager.authorizationStatus()
         switch status {
@@ -116,10 +133,6 @@ class UserViewController: UIViewController, IndicatorInfoProvider {
     @objc func pulltoRefreshTarget(){
       self.isqueriedDetalis = false
       refreshControll?.beginRefreshing()
-        if !self.locationData.isEmpty {
-            self.locationData.removeAll()
-            //print(self.locationData.count)
-        }
       self.queryUsers()
       refreshControll?.endRefreshing()
     }
@@ -135,25 +148,67 @@ class UserViewController: UIViewController, IndicatorInfoProvider {
     }
     
     func queryUsers(){
-        var temp : [userData?] = [userData?]()
-        
-        let circleQuery = geoFire.query(at: self.userlocation, withRadius: 1000)
+        var temp : [String] = [String]()
+        let circleQuery = geoFire.query(at: self.userlocation, withRadius: 10)
         circleQuery?.observe(.keyEntered, with: { (key, location) in
-            //print("USERLOCATION IS :\(location)")
-            let locationdata : [String: CLLocation] = [key! : location!]
-            let userdata = userData(location: locationdata, isload: false)
-            temp.append(userdata)
+            temp.append(key!)
+           
         })
 
         circleQuery?.observeReady({
-            self.locationData = temp
-            self.mycollecion.reloadData()
+            self.allKeysWithinRange = temp
             self.mycollecion.collectionViewLayout.invalidateLayout()
+            self.getUsersDetalis()
         })
     }
     
+    func getUsersDetalis(){
+        var isAllValueLoadedTracker  = [Bool]()
+        var data = [UserDataModel]()
+        for key in allKeysWithinRange {
+            userRef.child(key).child("userInformation").observeSingleEvent(of: .value) { (snapshot) in
+                
+                if snapshot.exists(){
+                    let response = snapshot.value as! [String : Any]
+                    let uid = key
+                    let name = response[UserEnum.name.rawValue] as! String
+                    let age = response[UserEnum.age.rawValue] as! NSNumber
+                    let iam = response[UserEnum.iam.rawValue] as! String
+                    let InterestedIn = response[UserEnum.InterestedIn.rawValue] as! String
+                    let picURL = response[UserEnum.profilePicURL.rawValue] as! String
+                    let user = UserDataModel(uid: uid, name: name, age: age as? Int, iam: iam, InterestedIn: InterestedIn, profilePicURL: picURL)
+                    print("SURI :\(age)")
+                    //Insert currrent user at first position
+                    if key == self.uid{
+                        data.insert(user, at: 0)
+                    }else{
+                        data.append(user)
+                    }
+                    isAllValueLoadedTracker.append(true)
+                }else{
+                    isAllValueLoadedTracker.append(true)
+                    data.append(UserDataModel(uid: key, name: nil, age: nil, iam: nil, InterestedIn: nil, profilePicURL: nil))
+                }
+            }
+        }
+        DispatchQueue(label: "waitforAllOperationtoFinished").async {
+            while(isAllValueLoadedTracker.count < self.allKeysWithinRange.count){
+            }
+            DispatchQueue.main.async {
+                if self.activity.isAnimating {
+                    self.activity.stopAnimating()
+                }
+                self.userData = data
+                self.mycollecion.reloadData()
+            }
+        }
+        // Main Thread
+    }
+    
+  
+    
     func updateLocation(forId id : String, location : CLLocation){
-        geofire = GeoFire(firebaseRef: ref.child("location"))
+        geofire = GeoFire(firebaseRef: ref.child("location").child(Gender.male.rawValue))
         geofire.setLocation(location, forKey: uid)
     }
     
@@ -161,18 +216,14 @@ class UserViewController: UIViewController, IndicatorInfoProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "celltochat" {
             if let index = self.mycollecion.indexPathsForSelectedItems?.first{
-                let dest = segue.destination as! MessageViewController
-                
-                dest.senderDisplayName = "VALUE TO SET"
-                dest.senderId = self.uid
-                let userData = self.locationData[index.item]
-                let location = userData?.locationDictonary
-                for l in location! {
-                       dest.recieverID = l.key
-                
-                }
+                let dest = segue.destination as! UserDetailsViewController
+                dest.isFromotherUser = true
+                dest.senderID = self.uid
+                dest.recieverID = self.userData[index.item]?.uid
+                dest.userInfo = self.userData[index.item]
             }
         }
+        
     }
 }
 
@@ -186,19 +237,18 @@ extension UserViewController : UICollectionViewDataSource{
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       return self.locationData.count
+       return self.userData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! UserCell
         
-           cell.backgroundColor = UIColor.red
-            let userData = self.locationData[indexPath.item]
-//            let location = userData.locationDictonary
-//            for l in location! {
-//                cell.eachUserUid = l.key
-//            }
-            cell.eachUser = userData
+           cell.settingImage.isHidden = true
+           cell.backgroundColor = UIColor.darkGray
+        print(self.userData)
+        print(indexPath.item)
+           let user = self.userData[indexPath.item]
+           cell.eachUser = user
         
         return cell
     }
@@ -208,14 +258,8 @@ extension UserViewController : UICollectionViewDataSource{
 
 extension UserViewController : UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard uid != nil else {
-            return
-        }
-        if indexPath.item == 0 {
-            self.performSegue(withIdentifier: "userdetails", sender: self)
-        }else{
         self.performSegue(withIdentifier: "celltochat", sender: self)
-        }
+        
     }
     
     
@@ -225,7 +269,7 @@ extension UserViewController : UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let padding = ( itemperRow + 1) * sectionInset.left
         let availablewidth = self.view.frame.width - padding
-        let widthPerItem = availablewidth / itemperRow
+        let widthPerItem : CGFloat = availablewidth / itemperRow
         return CGSize(width: widthPerItem, height: widthPerItem)
         
     }
@@ -241,7 +285,6 @@ extension UserViewController : UICollectionViewDelegateFlowLayout{
 extension UserViewController : CLLocationManagerDelegate{
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.userlocation = locations.first
-        
         if self.isqueriedDetalis == false {
         self.updateLocation(forId: self.uid!, location: self.userlocation!)
         self.queryUsers()
@@ -251,6 +294,8 @@ extension UserViewController : CLLocationManagerDelegate{
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        
+        self.showAlert(title: "Error!", message: "Unable to find location", buttonText: "OK")
     }
 }
+
+
