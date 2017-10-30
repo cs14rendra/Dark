@@ -8,6 +8,7 @@
 
 import UIKit
 import SDWebImage
+import FirebaseAuth
 
 class UserCell: UICollectionViewCell {
     
@@ -21,11 +22,14 @@ class UserCell: UICollectionViewCell {
             updateCell()
         }
     }
+    
     override func prepareForReuse() {
           self.image.image = nil
-         self.name.text = nil
-         self.age.text = nil
+          self.name.text = nil
+          self.age.text = nil
+        self.settingImage.isHidden = true
     }
+    
     func updateCell(){
         if let name = eachUser?.name{
             self.name.text = name
@@ -37,42 +41,19 @@ class UserCell: UICollectionViewCell {
            
         }
         self.loadImage()
+        if self.eachUser?.uid == Auth.auth().currentUser?.uid {
+            self.settingImage.isHidden = false
+        }
     }
     
     func loadImage(){
-       
-        if let imageLink = eachUser?.profilePicURL{
+       if let imageLink = eachUser?.profilePicURL{
             let url = URL(string: imageLink)
-                self.image.sd_setImage(with: url , placeholderImage: UIImage(named:"blank"), options:.continueInBackground, progress: nil, completed: nil)
+                self.image.sd_setImage(with: url , placeholderImage: UIImage(named:DARKImage.blank.rawValue), options:.continueInBackground, progress: nil, completed: nil)
             
         }else{
-            self.image.sd_setImage(with: nil , placeholderImage: UIImage(named:"blank"), options:.continueInBackground, progress: nil, completed: nil)
+            self.image.sd_setImage(with: nil , placeholderImage: UIImage(named:DARKImage.blank.rawValue), options:.continueInBackground, progress: nil, completed: nil)
         }
     }
 
-//
-//    func requestIndivisualData(){
-//        let location = eachUser?.locationDictonary
-//        var uid : String?
-//        //var userlocation : CLLocation?
-//        let isLoadedOnce = eachUser?.isLoaded
-//        for l in location! {
-//            uid = l.key
-//           // userlocation = l.value as? CLLocation
-//        }
-//        guard isLoadedOnce == false else {return}
-//
-//        userRef.child(uid!).child("userInformation").observeSingleEvent(of: .value) { (snapshot) in
-//            // Initially not exist
-//            if snapshot.exists() {
-//                let value = snapshot.value  as! [String : Any]
-//                let age = value["age"] as! NSNumber
-//                self.age.text = String(describing: age)
-//                self.eachUser?.isLoaded = true
-//             }else{
-//                self.age.text = ""
-//            }
-//        }
-//
-//    }
 }

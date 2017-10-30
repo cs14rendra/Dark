@@ -10,8 +10,8 @@
 		109D2F6B61A4F7CF5DE63C76 /* Pods_Dark.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A9BE61B80D3F7F78988403F /* Pods_Dark.framework */; };
 		2CBC4B3F5800F24108066E61 /* Pods_DarkUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ABD91A41AB50185A5AD1512 /* Pods_DarkUITests.framework */; };
 		6C097373CB6E6C7816CFEDF0 /* Pods_DarkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3847BC77D3F154C87666D1F3 /* Pods_DarkTests.framework */; };
-		ED111C2B1F8E7AE3004AF0AB /* segueAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED111C2A1F8E7AE3004AF0AB /* segueAnimation.swift */; };
-		ED111C2D1F8EA690004AF0AB /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED111C2C1F8EA690004AF0AB /* Global.swift */; };
+		ED111C2B1F8E7AE3004AF0AB /* SegueAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED111C2A1F8E7AE3004AF0AB /* SegueAnimation.swift */; };
+		ED111C2D1F8EA690004AF0AB /* GlobalMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED111C2C1F8EA690004AF0AB /* GlobalMethods.swift */; };
 		ED1739161F9A622B00053332 /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1739151F9A622B00053332 /* CustomSwitch.swift */; };
 		ED1739181F9A6B5200053332 /* GMColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1739171F9A6B5200053332 /* GMColor.swift */; };
 		ED2258B31F8B4DAF00C1BCD6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2258B21F8B4DAF00C1BCD6 /* Constants.swift */; };
@@ -34,6 +34,9 @@
 		EDA2CC8B1F869EDB0061B07B /* UserDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA2CC8A1F869EDB0061B07B /* UserDetailsViewController.swift */; };
 		EDA2CC8E1F86AB730061B07B /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA2CC8D1F86AB730061B07B /* SignIn.swift */; };
 		EDB73C9B1F98B5F50086F1C0 /* UserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB73C9A1F98B5F50086F1C0 /* UserDataModel.swift */; };
+		EDBEB4621FA4AFD200C557C0 /* DARKCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBEB4611FA4AFD200C557C0 /* DARKCoder.swift */; };
+		EDBEB4641FA5067600C557C0 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBEB4631FA5067500C557C0 /* SettingsViewController.swift */; };
+		EDBFE8361FA59AB8000AC57A /* Enumrations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBFE8351FA59AB8000AC57A /* Enumrations.swift */; };
 		EDE80DDD1F8773560051CED6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE80DDC1F8773560051CED6 /* User.swift */; };
 		EDE80E5F1F879E4D0051CED6 /* GeoFire.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E551F879AC30051CED6 /* GeoFire.m */; };
 		EDE80E601F879E4D0051CED6 /* GFBase32Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E571F879AC30051CED6 /* GFBase32Utils.m */; };
@@ -42,7 +45,6 @@
 		EDE80E631F879E4D0051CED6 /* GFQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E5D1F879AC30051CED6 /* GFQuery.m */; };
 		EDE80E651F87AF470051CED6 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E641F87AF470051CED6 /* UserViewController.swift */; };
 		EDE80E671F87AFF70051CED6 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E661F87AFF70051CED6 /* UserCell.swift */; };
-		EDF97F061F88C6C9001F7023 /* channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF97F051F88C6C9001F7023 /* channel.swift */; };
 		EDF97F081F88C885001F7023 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF97F071F88C885001F7023 /* ChatTableViewCell.swift */; };
 		EDF97F0A1F88D96F001F7023 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF97F091F88D96F001F7023 /* MessageViewController.swift */; };
 /* End PBXBuildFile section */
@@ -74,8 +76,8 @@
 		A2C70541D5946EE747B66514 /* Pods-DarkUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DarkUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DarkUITests/Pods-DarkUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF9F90D193FBB6A6256F7AB9 /* Pods-DarkUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DarkUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DarkUITests/Pods-DarkUITests.release.xcconfig"; sourceTree = "<group>"; };
 		EACA08CA21DA93262D6E18A1 /* Pods-Dark.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dark.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dark/Pods-Dark.debug.xcconfig"; sourceTree = "<group>"; };
-		ED111C2A1F8E7AE3004AF0AB /* segueAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = segueAnimation.swift; sourceTree = "<group>"; };
-		ED111C2C1F8EA690004AF0AB /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
+		ED111C2A1F8E7AE3004AF0AB /* SegueAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegueAnimation.swift; sourceTree = "<group>"; };
+		ED111C2C1F8EA690004AF0AB /* GlobalMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalMethods.swift; sourceTree = "<group>"; };
 		ED1739151F9A622B00053332 /* CustomSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitch.swift; sourceTree = "<group>"; };
 		ED1739171F9A6B5200053332 /* GMColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMColor.swift; sourceTree = "<group>"; };
 		ED2258B21F8B4DAF00C1BCD6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -104,6 +106,9 @@
 		EDA2CC8A1F869EDB0061B07B /* UserDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsViewController.swift; sourceTree = "<group>"; };
 		EDA2CC8D1F86AB730061B07B /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		EDB73C9A1F98B5F50086F1C0 /* UserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModel.swift; sourceTree = "<group>"; };
+		EDBEB4611FA4AFD200C557C0 /* DARKCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DARKCoder.swift; sourceTree = "<group>"; };
+		EDBEB4631FA5067500C557C0 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		EDBFE8351FA59AB8000AC57A /* Enumrations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumrations.swift; sourceTree = "<group>"; };
 		EDE80DDC1F8773560051CED6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		EDE80E371F8798000051CED6 /* Dark-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dark-Bridging-Header.h"; sourceTree = "<group>"; };
 		EDE80E4E1F879AC30051CED6 /* GeoFire.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeoFire.h; sourceTree = "<group>"; };
@@ -124,7 +129,6 @@
 		EDE80E641F87AF470051CED6 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		EDE80E661F87AFF70051CED6 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		EDF97F041F88C15E001F7023 /* Dark.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dark.entitlements; sourceTree = "<group>"; };
-		EDF97F051F88C6C9001F7023 /* channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = channel.swift; sourceTree = "<group>"; };
 		EDF97F071F88C885001F7023 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		EDF97F091F88D96F001F7023 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -282,6 +286,7 @@
 				ED69B0BE1F888E61003B25A1 /* PageViewController.swift */,
 				EDE80E641F87AF470051CED6 /* UserViewController.swift */,
 				EDE80E661F87AFF70051CED6 /* UserCell.swift */,
+				EDBEB4631FA5067500C557C0 /* SettingsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -294,8 +299,9 @@
 				ED45FD091F86780C00747C07 /* Assets.xcassets */,
 				ED45FD021F86780C00747C07 /* AppDelegate.swift */,
 				ED2258B21F8B4DAF00C1BCD6 /* Constants.swift */,
-				ED111C2A1F8E7AE3004AF0AB /* segueAnimation.swift */,
-				ED111C2C1F8EA690004AF0AB /* Global.swift */,
+				EDBFE8351FA59AB8000AC57A /* Enumrations.swift */,
+				ED111C2A1F8E7AE3004AF0AB /* SegueAnimation.swift */,
+				ED111C2C1F8EA690004AF0AB /* GlobalMethods.swift */,
 				ED8904821FA3263400520D48 /* myLocation.gpx */,
 			);
 			path = "Supportings  Files";
@@ -315,8 +321,8 @@
 			children = (
 				EDE80DDC1F8773560051CED6 /* User.swift */,
 				EDB73C9A1F98B5F50086F1C0 /* UserDataModel.swift */,
-				EDF97F051F88C6C9001F7023 /* channel.swift */,
 				ED8E7A9B1F97C98800395D0A /* APIManager.swift */,
+				EDBEB4611FA4AFD200C557C0 /* DARKCoder.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -707,22 +713,24 @@
 				EDE80E611F879E4D0051CED6 /* GFGeoHash.m in Sources */,
 				EDE80E651F87AF470051CED6 /* UserViewController.swift in Sources */,
 				EDE80E631F879E4D0051CED6 /* GFQuery.m in Sources */,
-				ED111C2D1F8EA690004AF0AB /* Global.swift in Sources */,
+				EDBEB4621FA4AFD200C557C0 /* DARKCoder.swift in Sources */,
+				ED111C2D1F8EA690004AF0AB /* GlobalMethods.swift in Sources */,
 				ED1739161F9A622B00053332 /* CustomSwitch.swift in Sources */,
-				ED111C2B1F8E7AE3004AF0AB /* segueAnimation.swift in Sources */,
+				ED111C2B1F8E7AE3004AF0AB /* SegueAnimation.swift in Sources */,
 				EDF97F081F88C885001F7023 /* ChatTableViewCell.swift in Sources */,
 				ED7DE6781F8E23050060DE2B /* UILabelX.swift in Sources */,
 				ED1739181F9A6B5200053332 /* GMColor.swift in Sources */,
 				ED45FD051F86780C00747C07 /* SignUp.swift in Sources */,
 				ED45FD031F86780C00747C07 /* AppDelegate.swift in Sources */,
+				EDBFE8361FA59AB8000AC57A /* Enumrations.swift in Sources */,
 				EDE80E621F879E4D0051CED6 /* GFGeoHashQuery.m in Sources */,
 				EDE80E671F87AFF70051CED6 /* UserCell.swift in Sources */,
 				EDA2CC8E1F86AB730061B07B /* SignIn.swift in Sources */,
-				EDF97F061F88C6C9001F7023 /* channel.swift in Sources */,
 				ED69B0C11F88919F003B25A1 /* ChatViewController.swift in Sources */,
 				EDF97F0A1F88D96F001F7023 /* MessageViewController.swift in Sources */,
 				EDB73C9B1F98B5F50086F1C0 /* UserDataModel.swift in Sources */,
 				ED69B0BF1F888E61003B25A1 /* PageViewController.swift in Sources */,
+				EDBEB4641FA5067600C557C0 /* SettingsViewController.swift in Sources */,
 				EDE80E601F879E4D0051CED6 /* GFBase32Utils.m in Sources */,
 				ED8E7A9C1F97C98800395D0A /* APIManager.swift in Sources */,
 				EDE80E5F1F879E4D0051CED6 /* GeoFire.m in Sources */,

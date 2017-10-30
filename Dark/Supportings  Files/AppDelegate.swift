@@ -13,6 +13,11 @@ import FirebaseAuth
 import UserNotifications
 import FirebaseMessaging
 
+private let storyBoardName = "Main"
+private enum ControllerIdentifre : String{
+    case mainpage
+    case signUp
+}
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -23,8 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         UserDefaults.standard.register(defaults: [Preferences.logIn.rawValue:false])
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        let mainController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainpage")
-        let signUpController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signUp")
+        let mainController = UIStoryboard(name: storyBoardName, bundle: nil).instantiateViewController(withIdentifier: ControllerIdentifre.mainpage.rawValue)
+        let signUpController = UIStoryboard(name: storyBoardName, bundle: nil).instantiateViewController(withIdentifier: ControllerIdentifre.signUp.rawValue)
         
         if UserDefaults.standard.bool(forKey: Preferences.logIn.rawValue) == true {
                 self.window?.rootViewController = mainController

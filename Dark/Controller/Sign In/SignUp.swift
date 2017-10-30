@@ -12,9 +12,12 @@ import LGButton
 import DatePickerDialog
 import SwiftDate
 
+private enum ControllerSegue : String{
+    case show
+}
+private let dateTextFieldTag = 99
 class ViewController: UIViewController {
 
-   
     @IBOutlet var gender: CustomSwitch!
     @IBOutlet var birthday: SkyFloatingLabelTextFieldWithIcon!
     @IBOutlet var color: GradientView!
@@ -22,14 +25,13 @@ class ViewController: UIViewController {
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var email: SkyFloatingLabelTextFieldWithIcon!
     @IBOutlet var password: SkyFloatingLabelTextFieldWithIcon!
-    var  handle : AuthStateDidChangeListenerHandle?
-    var activeTextField : UITextField?
-    
-   
-    // defaults user value
+    @IBOutlet var signbutton: LGButton!
+ 
     var genderType : String = Gender.male.rawValue
     var userBirthDay : NSNumber?
-    
+    var  handle : AuthStateDidChangeListenerHandle?
+    var activeTextField : UITextField?
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         gender.delegate = self
@@ -71,6 +73,7 @@ class ViewController: UIViewController {
         }
         
     }
+    
     @objc func keyboardshowed(notifivation : Notification){
         if  let textField = activeTextField , let keyboardSize = (notifivation.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue{
             let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
@@ -96,7 +99,7 @@ class ViewController: UIViewController {
       
     }
     
-    @IBOutlet var signbutton: LGButton!
+    
     @IBAction func okButton(_ sender: Any) {
         guard let emailValue = email.text, !emailValue.isEmpty  else  {
             self.showAlert(title: "Error!", message: "Enter Email", buttonText: "OK")
@@ -119,18 +122,18 @@ class ViewController: UIViewController {
                 return
             }
             self.createUserProfile()
-            self.performSegue(withIdentifier: "show", sender: self)
+            self.performSegue(withIdentifier: ControllerSegue.show.rawValue, sender: self)
           }
     }
     
     func createUserProfile(){
         // Everythings is checked Before
-        let user = User(name: "", age: userBirthDay as! Int, iam: self.genderType, InterestedIn: "", profilePicURL: "")
+        let user = User(name: nil, age: userBirthDay as! Int, iam: self.genderType, InterestedIn: nil, profilePicURL: nil)
         let encoder = JSONEncoder()
         do{
             let userDetalis = try encoder.encode(user)
             let object = try JSONSerialization.jsonObject(with: userDetalis, options: .mutableContainers)
-            ref.child("users").child((Auth.auth().currentUser?.uid)!).child("userInformation").setValue(object)
+            REF_USER.child((Auth.auth().currentUser?.uid)!).child(DARKFirebaseNode.userInformation.rawValue).setValue(object)
         }catch{
             print(error.localizedDescription)
         }
@@ -141,13 +144,14 @@ class ViewController: UIViewController {
         self.color.isUserInteractionEnabled = true
         self.color.addGestureRecognizer(tap)
     }
+    
     @objc func done(){
     self.view.endEditing(true)
-   
     }
 }
 
 extension ViewController : UITextFieldDelegate{
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.activeTextField = textField
     }
@@ -155,6 +159,7 @@ extension ViewController : UITextFieldDelegate{
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.activeTextField = nil
     }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if let nextTextField = textField.superview?.viewWithTag(textField.tag+1) as? UITextField{
@@ -164,10 +169,9 @@ extension ViewController : UITextFieldDelegate{
         }
         return true
     }
+    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField.tag == 99{
-            
-            self.showAlert(title: "active", message: "ok", buttonText: "ok")
+        if textField.tag == dateTextFieldTag{
             return false
         }
         return true
@@ -175,6 +179,7 @@ extension ViewController : UITextFieldDelegate{
 }
 
 extension ViewController : CustomSwitchDelegate{
+    
     func customSwitchValueDidChange(value: Bool) {
         if value == true {
             self.genderType = Gender.female.rawValue
@@ -182,6 +187,4 @@ extension ViewController : CustomSwitchDelegate{
             self.genderType = Gender.male.rawValue
         }
     }
-    
-    
 }

@@ -92,7 +92,6 @@ extension Date{
     func yearBetweenDate(startDate : Date , endDate : Date) -> Int {
         let calendar = Calendar(identifier: .gregorian)
         let component = calendar.dateComponents([.year], from: startDate, to: endDate)
-        
         return component.year! as Int
         
     }

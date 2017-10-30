@@ -12,15 +12,13 @@ import FirebaseStorage
 import UIKit
 
 // Firebase:
-let ref : DatabaseReference = Database.database().reference()
-let userRef = ref.child("users")
-let storageRef = Storage.storage().reference(forURL: "gs://dark-780c5.appspot.com")
+let REF : DatabaseReference = Database.database().reference()
+let REF_USER    = REF.child("users")
+let REF_STORAGE = Storage.storage().reference(forURL: "gs://dark-780c5.appspot.com")
+let REF_GEOFIRE = GeoFire(firebaseRef: REF.child("location").child(Gender.male.rawValue))
+let REF_CHANNEL = REF.child("Channels")
+let REF_CHAT    = REF.child("Chat")
 
 // Color :
-let PINK = GMColor.pinkA400Color()
+let DARKPINK = GMColor.pinkA400Color()
 
-// Preferences :
-
-enum Preferences : String {
-    case logIn
-}
