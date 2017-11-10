@@ -30,6 +30,7 @@ class MessageViewController: JSQMessagesViewController {
     
   
     private lazy var messageRef: DatabaseReference = REF_CHAT.child("\(String(describing: convID!))").child(DARKFirebaseNode.messages.rawValue)
+    private lazy var isNewMessageRef : DatabaseReference =  REF_CHAT.child("\(String(describing: convID!))").child(DARKFirebaseNode.newMessage.rawValue)
     private lazy var isUserTypingRef : DatabaseReference = REF_CHAT.child(self.convID!).child(DARKFirebaseNode.isUserTyping.rawValue).child(self.senderId)
     private lazy var userTypingQuery : DatabaseQuery = REF_CHAT.child(self.convID!).child(DARKFirebaseNode.isUserTyping.rawValue).queryOrderedByValue().queryEqual(toValue: true)
     private lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
@@ -38,13 +39,12 @@ class MessageViewController: JSQMessagesViewController {
     private var localtyping = false
     private let uid = Auth.auth().currentUser?.uid
     private var isRunOneTime : Bool = false
-    private var handle: DatabaseHandle?
     private var imagePicker : UIImagePickerController!
     private var photoMessageMap = [String : JSQPhotoMediaItem]()
     private var messages = [JSQMessage]()
     public  var recieverID : String?
     public  var convID : String?
-    
+   
     private var isTyping : Bool {
             get{
             return localtyping
@@ -156,7 +156,6 @@ class MessageViewController: JSQMessagesViewController {
     }
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
-        
         let itemRef = messageRef.childByAutoId()
         let messageItem = [
             MessageItem.senderId.rawValue: senderId,
@@ -164,6 +163,10 @@ class MessageViewController: JSQMessagesViewController {
             MessageItem.text.rawValue: text!,
             ]
         itemRef.setValue(messageItem)
+        // TODO: SET new message : true
+    
+        let isNewMessageData = ["\(self.senderId!)" : false , "\(self.recieverID!)": true ]
+        self.isNewMessageRef.setValue(isNewMessageData)
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         finishSendingMessage()
         if !isRunOneTime{
@@ -181,7 +184,6 @@ class MessageViewController: JSQMessagesViewController {
                 let temp2 = try encoder.encode(recieverChatMetaData)
                 let object2 = try JSONSerialization.jsonObject(with: temp2, options: .mutableContainers)
                  recieverChatref.setValue(object2)
-                
                 self.isRunOneTime = true
                 
             }catch{
@@ -198,32 +200,32 @@ class MessageViewController: JSQMessagesViewController {
     
     private func observeMessages() {
         let messageQuery = messageRef.queryLimited(toLast:25)
-        handle = messageQuery.observe(.childAdded, with: { (snapshot) -> Void in
-         
+        
+         messageQuery.observe(.childAdded, with: { [weak self] (snapshot) -> Void in
             let messageData = snapshot.value as! Dictionary<String, String>
             if let id = messageData[MessageItem.senderId.rawValue] as String!, let name = messageData[MessageItem.senderName.rawValue] as String!, let text = messageData[MessageItem.text.rawValue] as String!, text.characters.count > 0 {
-                self.addMessage(withId: id, name: name, text: text)
-                self.finishReceivingMessage()
+                self?.addMessage(withId: id, name: name, text: text)
+                self?.finishReceivingMessage()
               // Decode if message 
             }else if let id = messageData[MessageItem.senderId.rawValue] as String!,
                 let photoURL = messageData[MessageItem.photoURL.rawValue] as String! {
-                if let mediaItem = JSQPhotoMediaItem(maskAsOutgoing: id == self.senderId) {
-                    self.addPhotoMessage(withID: id, key: snapshot.key, mediaItem: mediaItem)
+                if let mediaItem = JSQPhotoMediaItem(maskAsOutgoing: id == self?.senderId) {
+                    self?.addPhotoMessage(withID: id, key: snapshot.key, mediaItem: mediaItem)
                     if photoURL.hasPrefix(URLPrefix.gs.rawValue) {
-                        self.fetchImageDataAtURL(photoURL, forMediaItem: mediaItem, clearsPhotoMessageMapOnSuccessForKey: nil)
+                        self?.fetchImageDataAtURL(photoURL, forMediaItem: mediaItem, clearsPhotoMessageMapOnSuccessForKey: nil)
                     }
                 }
             }
         })
         
-        messageRef.observe(.childChanged, with: { (snapshot) in
+        messageRef.observe(.childChanged, with: { [weak self] (snapshot) in
             let key = snapshot.key
             let messageData = snapshot.value as! Dictionary<String, String>
             
             if let photoURL = messageData[MessageItem.photoURL.rawValue] as String! {
                 // The photo has been updated.
-                if let mediaItem = self.photoMessageMap[key] {
-                    self.fetchImageDataAtURL(photoURL, forMediaItem: mediaItem, clearsPhotoMessageMapOnSuccessForKey: key)
+                if let mediaItem = self?.photoMessageMap[key] {
+                    self?.fetchImageDataAtURL(photoURL, forMediaItem: mediaItem, clearsPhotoMessageMapOnSuccessForKey: key)
                 }
             }
         })
@@ -236,17 +238,23 @@ class MessageViewController: JSQMessagesViewController {
     }
     func obeserveTyping(){
      self.isUserTypingRef.onDisconnectRemoveValue()
-        userTypingQuery.observe(.value) { snapshot in
-            if snapshot.childrenCount == 1 && self.isTyping == true {return}
-            self.showTypingIndicator = snapshot.childrenCount > 0
-            self.scrollToBottom(animated: true)
+      userTypingQuery.observe(.value) { [weak self] snapshot in
+            if snapshot.childrenCount == 1 && self?.isTyping == true {return}
+            self?.showTypingIndicator = snapshot.childrenCount > 0
+            self?.scrollToBottom(animated: true)
         }
+    }
+    deinit {
+            messageRef.removeAllObservers()
+            isUserTypingRef.removeAllObservers()
     }
 }
 
 extension MessageViewController{
     
     func sendPhotoMessage() -> String? {
+        let isNewMessageData = ["\(self.senderId!)" : false , "\(self.recieverID!)": true ]
+        self.isNewMessageRef.setValue(isNewMessageData)
         let itemRef = messageRef.childByAutoId()
         let messageItem =  [
             MessageItem.photoURL.rawValue: emptyPhotoURL,
@@ -296,5 +304,7 @@ extension MessageViewController : UINavigationControllerDelegate, UIImagePickerC
         }
         picker.dismiss(animated: true, completion: nil)
     }
+    
+    
 }
 

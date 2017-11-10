@@ -34,9 +34,17 @@
 		EDA2CC8B1F869EDB0061B07B /* UserDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA2CC8A1F869EDB0061B07B /* UserDetailsViewController.swift */; };
 		EDA2CC8E1F86AB730061B07B /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA2CC8D1F86AB730061B07B /* SignIn.swift */; };
 		EDB73C9B1F98B5F50086F1C0 /* UserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB73C9A1F98B5F50086F1C0 /* UserDataModel.swift */; };
+		EDB7C2BC1FAC5C230073BB87 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB7C2BB1FAC5C230073BB87 /* MapViewController.swift */; };
+		EDB7C2BE1FAC70F00073BB87 /* Mapdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB7C2BD1FAC70F00073BB87 /* Mapdata.swift */; };
+		EDB7C2C01FAC73340073BB87 /* UserAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB7C2BF1FAC73340073BB87 /* UserAnnotation.swift */; };
 		EDBEB4621FA4AFD200C557C0 /* DARKCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBEB4611FA4AFD200C557C0 /* DARKCoder.swift */; };
 		EDBEB4641FA5067600C557C0 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBEB4631FA5067500C557C0 /* SettingsViewController.swift */; };
 		EDBFE8361FA59AB8000AC57A /* Enumrations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBFE8351FA59AB8000AC57A /* Enumrations.swift */; };
+		EDDD1DF91FAF0F7C00799A19 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDD1DF81FAF0F7B00799A19 /* ImageCache.swift */; };
+		EDE08DED1FA85979005D56FB /* PopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE08DEC1FA85979005D56FB /* PopUp.swift */; };
+		EDE08DEF1FA90ACF005D56FB /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE08DEE1FA90ACF005D56FB /* ShadowView.swift */; };
+		EDE5914F1FAB2F8D003FC9EF /* TouchID.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE5914E1FAB2F8D003FC9EF /* TouchID.swift */; };
+		EDE591531FAB4D4E003FC9EF /* UserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EDE591511FAB4D4E003FC9EF /* UserTableViewCell.xib */; };
 		EDE80DDD1F8773560051CED6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE80DDC1F8773560051CED6 /* User.swift */; };
 		EDE80E5F1F879E4D0051CED6 /* GeoFire.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E551F879AC30051CED6 /* GeoFire.m */; };
 		EDE80E601F879E4D0051CED6 /* GFBase32Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E571F879AC30051CED6 /* GFBase32Utils.m */; };
@@ -106,9 +114,17 @@
 		EDA2CC8A1F869EDB0061B07B /* UserDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsViewController.swift; sourceTree = "<group>"; };
 		EDA2CC8D1F86AB730061B07B /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		EDB73C9A1F98B5F50086F1C0 /* UserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModel.swift; sourceTree = "<group>"; };
+		EDB7C2BB1FAC5C230073BB87 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		EDB7C2BD1FAC70F00073BB87 /* Mapdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapdata.swift; sourceTree = "<group>"; };
+		EDB7C2BF1FAC73340073BB87 /* UserAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAnnotation.swift; sourceTree = "<group>"; };
 		EDBEB4611FA4AFD200C557C0 /* DARKCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DARKCoder.swift; sourceTree = "<group>"; };
 		EDBEB4631FA5067500C557C0 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		EDBFE8351FA59AB8000AC57A /* Enumrations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumrations.swift; sourceTree = "<group>"; };
+		EDDD1DF81FAF0F7B00799A19 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		EDE08DEC1FA85979005D56FB /* PopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUp.swift; sourceTree = "<group>"; };
+		EDE08DEE1FA90ACF005D56FB /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
+		EDE5914E1FAB2F8D003FC9EF /* TouchID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchID.swift; sourceTree = "<group>"; };
+		EDE591511FAB4D4E003FC9EF /* UserTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserTableViewCell.xib; sourceTree = "<group>"; };
 		EDE80DDC1F8773560051CED6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		EDE80E371F8798000051CED6 /* Dark-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dark-Bridging-Header.h"; sourceTree = "<group>"; };
 		EDE80E4E1F879AC30051CED6 /* GeoFire.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeoFire.h; sourceTree = "<group>"; };
@@ -285,10 +301,20 @@
 				ED69B0C21F88A16F003B25A1 /* Sign In */,
 				ED69B0BE1F888E61003B25A1 /* PageViewController.swift */,
 				EDE80E641F87AF470051CED6 /* UserViewController.swift */,
-				EDE80E661F87AFF70051CED6 /* UserCell.swift */,
 				EDBEB4631FA5067500C557C0 /* SettingsViewController.swift */,
+				EDB7C2BB1FAC5C230073BB87 /* MapViewController.swift */,
+				EDE08DEC1FA85979005D56FB /* PopUp.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		EDDD1DFA1FAF343300799A19 /* ChatTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				EDF97F071F88C885001F7023 /* ChatTableViewCell.swift */,
+				EDE591511FAB4D4E003FC9EF /* UserTableViewCell.xib */,
+			);
+			path = ChatTableCell;
 			sourceTree = "<group>";
 		};
 		EDE80DD91F876B780051CED6 /* Supportings  Files */ = {
@@ -302,6 +328,8 @@
 				EDBFE8351FA59AB8000AC57A /* Enumrations.swift */,
 				ED111C2A1F8E7AE3004AF0AB /* SegueAnimation.swift */,
 				ED111C2C1F8EA690004AF0AB /* GlobalMethods.swift */,
+				EDE08DEE1FA90ACF005D56FB /* ShadowView.swift */,
+				EDE5914E1FAB2F8D003FC9EF /* TouchID.swift */,
 				ED8904821FA3263400520D48 /* myLocation.gpx */,
 			);
 			path = "Supportings  Files";
@@ -310,6 +338,8 @@
 		EDE80DDA1F876BA70051CED6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				EDE80E661F87AFF70051CED6 /* UserCell.swift */,
+				EDDD1DFA1FAF343300799A19 /* ChatTableCell */,
 				ED45FD061F86780C00747C07 /* Main.storyboard */,
 				ED45FD0B1F86780C00747C07 /* LaunchScreen.storyboard */,
 			);
@@ -320,9 +350,12 @@
 			isa = PBXGroup;
 			children = (
 				EDE80DDC1F8773560051CED6 /* User.swift */,
+				EDB7C2BF1FAC73340073BB87 /* UserAnnotation.swift */,
+				EDB7C2BD1FAC70F00073BB87 /* Mapdata.swift */,
 				EDB73C9A1F98B5F50086F1C0 /* UserDataModel.swift */,
 				ED8E7A9B1F97C98800395D0A /* APIManager.swift */,
 				EDBEB4611FA4AFD200C557C0 /* DARKCoder.swift */,
+				EDDD1DF81FAF0F7B00799A19 /* ImageCache.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -369,7 +402,6 @@
 			isa = PBXGroup;
 			children = (
 				ED69B0C01F88919F003B25A1 /* ChatViewController.swift */,
-				EDF97F071F88C885001F7023 /* ChatTableViewCell.swift */,
 				EDF97F091F88D96F001F7023 /* MessageViewController.swift */,
 			);
 			name = Chat;
@@ -503,6 +535,7 @@
 				ED7DE67A1F8E3B1B0060DE2B /* fontawesome-webfont.ttf in Resources */,
 				EDA2CC891F867FCF0061B07B /* GoogleService-Info.plist in Resources */,
 				ED8904831FA3263400520D48 /* myLocation.gpx in Resources */,
+				EDE591531FAB4D4E003FC9EF /* UserTableViewCell.xib in Resources */,
 				ED45FD0D1F86780C00747C07 /* LaunchScreen.storyboard in Resources */,
 				ED45FD0A1F86780C00747C07 /* Assets.xcassets in Resources */,
 				ED45FD081F86780C00747C07 /* Main.storyboard in Resources */,
@@ -532,9 +565,14 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Dark/Pods-Dark-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -567,15 +605,18 @@
 				"${BUILT_PRODUCTS_DIR}/DatePickerDialog/DatePickerDialog.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/JSQMessagesViewController/JSQMessagesViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/LGButton/LGButton.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/ReachabilitySwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftDate/SwiftDate.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftKeychainWrapper/SwiftKeychainWrapper.framework",
 				"${BUILT_PRODUCTS_DIR}/XLPagerTabStrip/XLPagerTabStrip.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -584,15 +625,18 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DatePickerDialog.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQMessagesViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQSystemSoundPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LGButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReachabilitySwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftDate.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftKeychainWrapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLPagerTabStrip.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -710,10 +754,13 @@
 				EDE80DDD1F8773560051CED6 /* User.swift in Sources */,
 				ED7350CC1FA1CA76002E3BDB /* DARKImagePickerViewController.swift in Sources */,
 				EDA2CC8B1F869EDB0061B07B /* UserDetailsViewController.swift in Sources */,
+				EDE08DEF1FA90ACF005D56FB /* ShadowView.swift in Sources */,
 				EDE80E611F879E4D0051CED6 /* GFGeoHash.m in Sources */,
 				EDE80E651F87AF470051CED6 /* UserViewController.swift in Sources */,
 				EDE80E631F879E4D0051CED6 /* GFQuery.m in Sources */,
 				EDBEB4621FA4AFD200C557C0 /* DARKCoder.swift in Sources */,
+				EDB7C2BE1FAC70F00073BB87 /* Mapdata.swift in Sources */,
+				EDDD1DF91FAF0F7C00799A19 /* ImageCache.swift in Sources */,
 				ED111C2D1F8EA690004AF0AB /* GlobalMethods.swift in Sources */,
 				ED1739161F9A622B00053332 /* CustomSwitch.swift in Sources */,
 				ED111C2B1F8E7AE3004AF0AB /* SegueAnimation.swift in Sources */,
@@ -724,10 +771,13 @@
 				ED45FD031F86780C00747C07 /* AppDelegate.swift in Sources */,
 				EDBFE8361FA59AB8000AC57A /* Enumrations.swift in Sources */,
 				EDE80E621F879E4D0051CED6 /* GFGeoHashQuery.m in Sources */,
+				EDB7C2C01FAC73340073BB87 /* UserAnnotation.swift in Sources */,
 				EDE80E671F87AFF70051CED6 /* UserCell.swift in Sources */,
 				EDA2CC8E1F86AB730061B07B /* SignIn.swift in Sources */,
 				ED69B0C11F88919F003B25A1 /* ChatViewController.swift in Sources */,
 				EDF97F0A1F88D96F001F7023 /* MessageViewController.swift in Sources */,
+				EDE08DED1FA85979005D56FB /* PopUp.swift in Sources */,
+				EDE5914F1FAB2F8D003FC9EF /* TouchID.swift in Sources */,
 				EDB73C9B1F98B5F50086F1C0 /* UserDataModel.swift in Sources */,
 				ED69B0BF1F888E61003B25A1 /* PageViewController.swift in Sources */,
 				EDBEB4641FA5067600C557C0 /* SettingsViewController.swift in Sources */,
@@ -735,6 +785,7 @@
 				ED8E7A9C1F97C98800395D0A /* APIManager.swift in Sources */,
 				EDE80E5F1F879E4D0051CED6 /* GeoFire.m in Sources */,
 				ED2258B31F8B4DAF00C1BCD6 /* Constants.swift in Sources */,
+				EDB7C2BC1FAC5C230073BB87 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

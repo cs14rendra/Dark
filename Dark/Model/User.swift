@@ -11,7 +11,7 @@ import Foundation
 
 struct User : Codable {
     var name : String?
-    var age  : Int
+    var age  : Double
     var iam : String
     var InterestedIn : String?
     var profilePicURL : String?

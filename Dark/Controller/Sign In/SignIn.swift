@@ -10,12 +10,15 @@ import UIKit
 import FirebaseAuth
 import SkyFloatingLabelTextField
 import LGButton
+import SwiftKeychainWrapper
 
 private enum ControllerSegueIdentifire : String{
     case showDetail
 }
 class DetailViewController: UIViewController {
     
+    @IBOutlet var dark: UILabel!
+    @IBOutlet var existing: UIButton!
     @IBOutlet var signIn: LGButton!
     @IBOutlet var color: GradientView!
     @IBOutlet var content: UIView!
@@ -25,6 +28,8 @@ class DetailViewController: UIViewController {
     
     var  handle : AuthStateDidChangeListenerHandle?
     var activeTextField : UITextField?
+    
+    private let keyWrapper = KeychainWrapper.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,16 +48,43 @@ class DetailViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardwillhide), name: Notification.Name.UIKeyboardWillHide, object: nil)
         self.hideKeyboardGuesture()
         self.addForgotPassBUtton()
+        self.email.transform = CGAffineTransform(translationX: -self.view.frame.width, y:00)
+        self.password.transform = CGAffineTransform(translationX: -self.view.frame.width, y:00)
+        self.signIn.transform = CGAffineTransform(translationX: 0, y: self.view.bounds.size.height)
+        self.dark.alpha = 0.0
+        self.existing.alpha = 0.0
+
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.animate(withDuration: 0.5, delay: 0.4, options: [.curveEaseInOut], animations: {
+            self.email.transform = .identity
+        }, completion: nil)
+        
+        UIView.animate(withDuration: 0.5, delay: 0.6, options: [.curveEaseInOut], animations: {
+            self.password.transform = .identity
+        }, completion: nil)
+        UIView.animate(withDuration: 0.5, delay: 1.1, usingSpringWithDamping: 0.88, initialSpringVelocity: 0.1, options: [.curveEaseInOut], animations: {
+            self.signIn.transform = .identity
+        }, completion: nil)
+        //
+        UIView.animate(withDuration: 2.5, delay: 1.0, options: [.curveEaseInOut], animations: {
+            self.dark.alpha = 1.0
+        }, completion: nil)
+        UIView.animate(withDuration: 2.5, delay: 1, options: [.curveEaseInOut], animations: {
+            self.existing.alpha = 1.0
+        }, completion: nil)
         
     }
-    
+    override var prefersStatusBarHidden: Bool{
+        return true
+    }
     @objc func keyboardshowed(notifivation : Notification){
         if  let textField = activeTextField , let keyboardSize = (notifivation.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue{
             let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
             self.scrollView.contentInset = contentInset
             self.scrollView.scrollIndicatorInsets = contentInset
             var aRect = self.view.frame
-            print("\(aRect.size.height) : \(keyboardSize.size.height)")
             aRect.size.height =  aRect.size.height - keyboardSize.size.height
             if(!aRect.contains(textField.frame.origin)){
                 self.scrollView.scrollRectToVisible(textField.frame, animated: true)
@@ -94,6 +126,7 @@ class DetailViewController: UIViewController {
                 self.handleAuthError(error: error!)
                 return
             }
+            self.keyWrapper.set(password, forKey: PrefKeychain.Password.rawValue)
             self.performSegue(withIdentifier: ControllerSegueIdentifire.showDetail.rawValue, sender: self)
         }
     }
@@ -148,6 +181,10 @@ class DetailViewController: UIViewController {
                 }
                  self.showAlert(title: "Sent!", message: "Password Reset link has been sent to \(email).", buttonText: "OK")
             }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 

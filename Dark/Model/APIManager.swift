@@ -9,30 +9,41 @@
 import Foundation
 import Firebase
 
+protocol APIManagerDelegate : class {
+    func didLoadMapData(mapData : [MapData])
+}
 class APIManager {
     static let sharedInstanse = APIManager()
-    private var geofire = REF_GEOFIRE
+    private var geofire : GeoFire!
     private var allKeysWithinRange = [String]()
     private let currentUserPositionInCollectionView = 0
+    weak var delegate  : APIManagerDelegate?
     
-    func queryUsers(forCurrentuserUID uid: String,  userlocation : CLLocation, completion : @escaping (_ users:[UserDataModel])-> ()){
+    func queryUsers(forCurrentuserUID uid: String, onUserRef ref : DatabaseReference, intheRadious radious : Double , userlocation : CLLocation, completion : @escaping (_ users:[UserDataModel])-> ()){
+        
         var temp : [String] = [String]()
-        let circleQuery = geofire?.query(at: userlocation, withRadius: 10)
+        var mapdata : [MapData] = [MapData]()
+        geofire = GeoFire(firebaseRef: ref)
+        let circleQuery = geofire?.query(at: userlocation, withRadius: radious)
+        
         circleQuery?.observe(.keyEntered, with: { (key, location) in
             temp.append(key!)
-            
+            mapdata.append(MapData(key: key, location: location))
         })
         
         circleQuery?.observeReady({
+            circleQuery?.removeAllObservers()
+            if !temp.contains(uid){ temp.insert(uid, at: 0) }
             self.allKeysWithinRange = temp
+            self.delegate?.didLoadMapData(mapData: mapdata)
             self.getUsersDetalis(forCurrentuserUID: uid ,forkeys: self.allKeysWithinRange, completion:{ users in
                 completion(users)
             })
         })
     }
     
-    func updateLocation(forUserId id : String, location : CLLocation){
-        geofire = REF_GEOFIRE
+    func updateLocation(forUserId id : String, forRef ref : DatabaseReference, location : CLLocation){
+        geofire = GeoFire(firebaseRef: ref)
         geofire?.setLocation(location, forKey: id)
     }
     
@@ -57,6 +68,7 @@ class APIManager {
                         }
                     }catch{
                         print(error.localizedDescription)
+                        data.append(UserDataModel(id: key, user: nil))
                     }
                 }else{
                     data.append(UserDataModel(id: key, user: nil))
@@ -67,6 +79,7 @@ class APIManager {
         DispatchQueue(label: "waitforAllOperationtoFinished").async {
             while(isAllValueLoadedTracker.count < self.allKeysWithinRange.count){
             }
+            REF_USER.removeAllObservers()
             completion(data)
         }
         

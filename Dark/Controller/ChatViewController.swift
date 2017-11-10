@@ -6,6 +6,8 @@
 //  Copyright © 2017 weza. All rights reserved.
 //
 
+//TODO: dont reload . insert a row when new chat
+// CHECK ALLOCATION OF MESSAGECONTROLLER 
 import UIKit
 import XLPagerTabStrip
 import FirebaseAuth
@@ -24,7 +26,9 @@ private enum ControllerSegue : String{
     case chat
 }
 private let reusableCellIdentifire = "Cell"
+private let cellIdetifireXib = "MyCell"
 private let tabName = "Chat"
+private let estimatedHeight : CGFloat = 75
 
 class ChatViewController: UIViewController, IndicatorInfoProvider {
     
@@ -32,38 +36,62 @@ class ChatViewController: UIViewController, IndicatorInfoProvider {
 
     private var channel : [Chat] = [Chat]()
     var uid : String? = Auth.auth().currentUser?.uid
-    var handle : FirebaseHandle?
     var handleListener : AuthStateDidChangeListenerHandle?
-    lazy var channelRef = REF_CHANNEL
-    private lazy var chatList = REF_USER.child(self.uid!).child(DARKFirebaseNode.userchatList.rawValue)
     var selectedRow : IndexPath?
     var longPress : UILongPressGestureRecognizer!
+    var refreshControll : UIRefreshControl?
+    
+    private lazy var chatList = REF_USER.child(self.uid!).child(DARKFirebaseNode.userchatList.rawValue)
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.observeChannel()
         self.customiseTable()
+        self.addPulltoRefresh()
     }
-    
+    override func didReceiveMemoryWarning() {
+        //TODO: delete row when recive warning 
+    }
     func customiseTable(){
         self.my.tableFooterView = UIView()
         self.my.backgroundColor = UIColor.black
     }
+    func addPulltoRefresh(){
+        refreshControll = UIRefreshControl()
+        refreshControll?.bounds = CGRect(x: refreshControll!.bounds.origin.x, y: refreshControll!.bounds.origin.y+50, width: refreshControll!.bounds.size.width, height: refreshControll!.bounds.size.height)
+        refreshControll?.tintColor = UIColor.gray
+        refreshControll?.addTarget(self, action: #selector(UserViewController.pulltoRefreshTarget), for: .valueChanged)
+        self.my.addSubview(refreshControll!)
+    }
+    
+    @objc func pulltoRefreshTarget(){
+        self.my.reloadData()
+        self.refreshControll?.endRefreshing()
+    }
     
     func observeChannel(){
-        handle = self.chatList.observe(.childAdded, with: { snapshot in
+        self.chatList.observe(.childAdded, with: {  [weak self] snapshot in
             if snapshot.exists(){
-                print(snapshot.key)
+   
                 let convID = snapshot.key as String
                 let value = snapshot.value as! [String : Any]
                 let timeStamp = value[MessageKey.timeStamp.rawValue] as! Int
                 let recieverIDfromServer = value[MessageKey.recieverID.rawValue] as! String
                 let chat = Chat(recieverIDfromServer: recieverIDfromServer, timeStamp: timeStamp, convID: convID)
-                self.channel.append(chat)
-                self.channel = self.channel.sorted {$0.timeStamp > $1.timeStamp}
-                DispatchQueue.main.async {
-                    self.my.reloadData()
+                //self?.channel = (self?.channel.sorted {$0.timeStamp > $1.timeStamp})!
+                let a = self?.channel.contains(where: { chat -> Bool in
+                    chat.convID == convID
+                })
+                if let isNewElement = a, isNewElement == false {
+                    DispatchQueue.main.async {
+                        self?.my.beginUpdates()
+                        self?.channel.insert(chat, at: 0)
+                        self?.my.insertRows(at: [IndexPath.init(row:0, section:0)], with: .automatic)
+                        self?.my.endUpdates()
+                    }
                 }
+                
             }else{
                 print("not exist ")
             }
@@ -76,10 +104,12 @@ class ChatViewController: UIViewController, IndicatorInfoProvider {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { action in
             if let index = self.selectedRow{
-                print(index)
-                self.chatList.child(self.channel[index.row].convID).removeValue()
+                // TODO: remove comment
+                //self.chatList.child(self.channel[index.row].convID).removeValue()
+                self.my.beginUpdates()
                 self.channel.remove(at: index.row)
                 self.my.deleteRows(at: [index], with: .top)
+                self.my.endUpdates()
             }
         }
         optionMenu.addAction(UIAlertAction(title: "cancle", style: .cancel, handler: nil))
@@ -89,9 +119,9 @@ class ChatViewController: UIViewController, IndicatorInfoProvider {
     }
     
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
-        return IndicatorInfo(title: tabName)
+        return IndicatorInfo(image: UIImage(named: "ch"))
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ControllerSegue.chat.rawValue {
             if let index = self.my.indexPathForSelectedRow {
@@ -106,10 +136,10 @@ class ChatViewController: UIViewController, IndicatorInfoProvider {
     }
     
     deinit {
-        guard let handle = handle else {return}
-        self.channelRef.removeObserver(withHandle: handle)
+        REF.removeAllObservers()
     }
 }
+
 
 extension ChatViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -117,18 +147,46 @@ extension ChatViewController : UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reusableCellIdentifire, for: indexPath) as! ChatTableViewCell
+        // Prevent from Reuse
+        let cell = Bundle.main.loadNibNamed("UserTableViewCell", owner: self, options: nil)?.first as! ChatTableViewCell
         cell.recieverID = self.channel[indexPath.row].recieverIDfromServer
-        cell.selectionStyle = .gray
+        cell.cellconvID = self.channel[indexPath.row].convID
+        cell.selectionStyle = .none
         longPress = UILongPressGestureRecognizer(target: self, action: #selector(cellLongPressed(sender:)))
         cell.addGestureRecognizer(longPress)
+       
         return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return estimatedHeight
     }
     
 }
+
+
 extension ChatViewController : UITableViewDelegate{
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+       let cell = tableView.cellForRow(at: indexPath) as! ChatTableViewCell
+        cell.chatText.font = cell.chatText.font.withSize(17)
+        cell.chatText.textColor = UIColor.white
+        let isNewMessageRef : DatabaseReference =  REF_CHAT.child("\(self.channel[indexPath.row].convID)").child(DARKFirebaseNode.newMessage.rawValue).child(self.uid!)
+        isNewMessageRef.setValue(false)
+        
+        let chatNav = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "chatNav") as! UINavigationController
+        let dest = chatNav.viewControllers.first as! MessageViewController
+        dest.senderDisplayName = ""
+        dest.senderId = self.uid
+        dest.convID = self.channel[indexPath.row].convID
+        dest.recieverID = self.channel[indexPath.row].recieverIDfromServer
+        self.present(chatNav, animated: true, completion: nil)
+    }
+    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-   
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return estimatedHeight
+    }
 }

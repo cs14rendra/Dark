@@ -21,15 +21,35 @@ enum DARKFirebaseNode : String{
     case profilePicURL
     case messages
     case isUserTyping
+    case iam
+    case newMessage
 }
 
 enum DARKImage : String{
     case blank
     case chat
     case question
+    case tuser
+    case tmap
+    case online
+    case offline
+    case setting
 }
 
 // Preferences :
 enum Preferences : String {
     case logIn
+    case Gender
+    case InterestedIn
+    case Distance
 }
+
+enum PrefKeychain : String{
+    case Password
+    case FacebookAccessToken
+    case TwitterAuthToken
+    case TwitterAuthSecrete
+    case GoogleIdToken
+    case GoogleAccessToken
+}
+

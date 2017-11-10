@@ -11,7 +11,7 @@ import Foundation
 struct UserDataModel : Codable {
     var uid : String
     var name : String?
-    var age  : Int?
+    var age  : Double?
     var iam : String?
     var InterestedIn : String?
     var profilePicURL : String?

@@ -12,10 +12,12 @@ import FirebaseAuth
 import XLPagerTabStrip
 import UserNotifications
 import FirebaseMessaging
+import ReachabilitySwift
 
 private let reuseIdentifier = "Cell"
 private let tabName = "NearBy"
 private let itemperRow : CGFloat = 3.0
+private let bannerHeight : CGFloat = 40
 
 private enum ControllerSegue : String {
     case celltochat
@@ -28,32 +30,39 @@ class UserViewController: UIViewController, IndicatorInfoProvider {
    
     //CONSTANTS
     
-    private let sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    private let sectionInset = UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
     private let locationManager = CLLocationManager()
     private let activity : UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
     private let manager = APIManager.sharedInstanse
     
     // VARIABLES
-    var geoFire : GeoFire!
     var allKeysWithinRange : [String] = [String]()
     var userData : [UserDataModel?] = [UserDataModel?]()
     var refreshControll : UIRefreshControl?
     var handleListener : AuthStateDidChangeListenerHandle?
     var uid = Auth.auth().currentUser?.uid
     var userlocation : CLLocation?
-    var geofire : GeoFire!
     var isqueriedDetalis : Bool = false
-    
+    private var userGender : String?
+    private var userInterest : String?
+    private var localUserInterestRef : DatabaseReference?
+    private var isConnectedToNetwork : Bool = false
    
+    @IBOutlet var internetConnetionBanner: UIView!
     
     // ViewController Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        if reachability.connection == .wifi || reachability.connection == .cellular{
+            self.isConnectedToNetwork = true
+        }
         self.addPulltoRefresh()
         UserDefaults.standard.set(true, forKey: Preferences.logIn.rawValue)
-        geoFire = REF_GEOFIRE
         self.locationManager.startUpdatingLocation()
         self.configureActivity()
+        userGender   =  UserDefaults.standard.string(forKey: Preferences.Gender.rawValue)
+        userInterest =  UserDefaults.standard.string(forKey: Preferences.InterestedIn.rawValue)
+        NotificationCenter.default.addObserver(self, selector: #selector(NertworkStatusChanged(notification:)), name: .reachabilityChanged, object: nil)
   }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -68,9 +77,11 @@ class UserViewController: UIViewController, IndicatorInfoProvider {
                 case .userTokenExpired :
                     self.showAlert(title: "Error!", message: "User need to login again", buttonText: "OK")
                     self.resetApp()
+                    
                case .userDisabled :
                     self.showAlert(title: "Error!", message: "User Account Disabled", buttonText: "OK")
                     self.resetApp()
+          
                 default : break
                     
                 }
@@ -79,6 +90,30 @@ class UserViewController: UIViewController, IndicatorInfoProvider {
      }
 
     // Custom Method
+    
+    
+    @objc func NertworkStatusChanged(notification : Notification){
+        let reachabilty = notification.object as! Reachability
+        switch reachabilty.connection {
+        case .wifi, .cellular:
+            self.isConnectedToNetwork = true
+            if self.internetConnetionBanner.transform != .identity
+            {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.internetConnetionBanner.transform = .identity
+                })
+            }
+        default:
+            if self.internetConnetionBanner.transform == .identity
+            {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.internetConnetionBanner.transform = CGAffineTransform(translationX: 0, y: -bannerHeight)
+                })
+            }
+            self.isConnectedToNetwork = false
+            return
+        }
+    }
     
     func configureActivity(){
         activity.center = CGPoint(x: self.view.center.x, y: self.view.center.y - (self.view.bounds.size.height/4))
@@ -129,20 +164,39 @@ class UserViewController: UIViewController, IndicatorInfoProvider {
     @objc func pulltoRefreshTarget(){
       self.isqueriedDetalis = false
       refreshControll?.beginRefreshing()
-      self.loadUsersData()
-      refreshControll?.endRefreshing()
+        if let currentInterest = UserDefaults.standard.string(forKey: Preferences.InterestedIn.rawValue){
+            self.localUserInterestRef = REF.child("location").child(currentInterest)
+        }
+      self.loadUsersData(onfireBaseRef: self.localUserInterestRef)
     }
     
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
-        return IndicatorInfo(title: tabName)
+        return IndicatorInfo(image: UIImage(named: DARKImage.tuser.rawValue))
     }
    
-    func loadUsersData(){
-        self.manager.queryUsers(forCurrentuserUID: self.uid!, userlocation: self.userlocation!, completion: { users in
-            self.userData = users
+    func loadUsersData(onfireBaseRef ref : DatabaseReference?){
+        guard let userRef = ref else {
+            refreshControll?.endRefreshing()
+            return}
+        guard isConnectedToNetwork else {
+            if self.internetConnetionBanner.transform == .identity
+            {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.internetConnetionBanner.transform = CGAffineTransform(translationX: 0, y: -bannerHeight)
+                })
+            }
+            self.activity.isAnimating ? self.activity.stopAnimating():nil
+            refreshControll?.endRefreshing()
+            return
+        }
+        let radious = UserDefaults.standard.integer(forKey: Preferences.Distance.rawValue)
+        self.manager.queryUsers(forCurrentuserUID: self.uid!, onUserRef: userRef, intheRadious: Double(radious), userlocation: self.userlocation!, completion: { [weak self] users in
+            self?.userData = users
             DispatchQueue.main.async {
-                self.mycollecion.reloadData()
-                self.activity.isAnimating ? self.activity.stopAnimating():nil
+                self?.refreshControll?.endRefreshing()
+                self?.mycollecion.reloadData()
+                (self?.activity.isAnimating)! ? self?.activity.stopAnimating():nil
+                
             }
             
         })
@@ -156,6 +210,9 @@ class UserViewController: UIViewController, IndicatorInfoProvider {
                 dest.userInfo = self.userData[index.item]
             }
         }
+    }
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: reachability)
     }
 }
 
@@ -172,7 +229,7 @@ extension UserViewController : UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! UserCell
-        cell.settingImage.isHidden = true
+       
         cell.backgroundColor = UIColor.darkGray
         let user = self.userData[indexPath.item]
         cell.eachUser = user
@@ -191,7 +248,7 @@ extension UserViewController : UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let padding = ( itemperRow + 1) * sectionInset.left
-        let availablewidth = self.view.frame.width - padding
+        let availablewidth = collectionView.bounds.width - padding
         let widthPerItem : CGFloat = availablewidth / itemperRow
         return CGSize(width: widthPerItem, height: widthPerItem)
         
@@ -202,18 +259,44 @@ extension UserViewController : UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return sectionInset.left
     }
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
 }
 
 extension UserViewController : CLLocationManagerDelegate{
+    
+    func updateLocationandLoadUserData(onGenderType gender : String ){
+        let currentGender =  gender == Gender.male.rawValue ? Gender.male.rawValue : Gender.female.rawValue
+        var  currentInterest : String
+        if  self.userInterest == nil {
+            currentInterest =  currentGender == Gender.male.rawValue ? Gender.female.rawValue : Gender.male.rawValue
+        }else{
+            currentInterest = self.userInterest!
+        }
+        self.localUserInterestRef  = REF.child("location").child(currentInterest)
+        let userLocationRef = REF.child("location").child(currentGender)
+        self.manager.updateLocation(forUserId: self.uid!, forRef: userLocationRef, location: self.userlocation!)
+        self.isqueriedDetalis = true
+        self.loadUsersData(onfireBaseRef: self.localUserInterestRef)
+    }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.userlocation = locations.first
         // Automatic collectionView refresh is not Avaiable to users
         // User need to refresh Collection by pulling it down whenever location change
         if self.isqueriedDetalis == false {
-            self.manager.updateLocation(forUserId: self.uid!, location: self.userlocation!)
-             self.isqueriedDetalis = true
-            self.loadUsersData()
+            guard let gender = self.userGender else {
+                REF_USER.child(self.uid!).child(DARKFirebaseNode.userInformation.rawValue).child(DARKFirebaseNode.iam.rawValue).observeSingleEvent(of: .value, with: { [weak self] snapshot in
+                    if snapshot.exists(){
+                        let gender = snapshot.value as! String
+                         let currentGender =  gender == Gender.male.rawValue ? Gender.male.rawValue : Gender.female.rawValue
+                        UserDefaults.standard.set(currentGender, forKey: Preferences.Gender.rawValue)
+                        self?.updateLocationandLoadUserData(onGenderType:currentGender)
+                    }
+                })
+            return
+            }
+         self.updateLocationandLoadUserData(onGenderType: gender)
         }
         self.locationManager.stopUpdatingLocation()
     }

@@ -22,8 +22,13 @@ pod 'LGButton'
 pod 'SkyFloatingLabelTextField', '~> 3.0'
 pod 'DatePickerDialog'
 pod 'SwiftDate'
-
-
+pod 'Bolts'
+pod 'FBSDKCoreKit'
+pod 'FBSDKLoginKit'
+pod 'TwitterKit'
+pod 'GoogleSignIn'
+pod 'SwiftKeychainWrapper'
+pod 'ReachabilitySwift'
 
   target 'DarkTests' do
     inherit! :search_paths

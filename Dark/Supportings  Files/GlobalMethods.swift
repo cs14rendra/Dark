@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import FirebaseAuth
+import SwiftKeychainWrapper
 
 extension UIViewController{
     public func showAlert(title : String, message: String, buttonText: String){
@@ -45,10 +46,25 @@ extension UIViewController{
     }
     
     func resetApp(){
-        UserDefaults.standard.set(false, forKey: Preferences.logIn.rawValue)
+        // UserDEfaults
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: Preferences.logIn.rawValue)
+        defaults.removeObject(forKey: Preferences.Gender.rawValue)
+        defaults.removeObject(forKey: Preferences.InterestedIn.rawValue)
+        defaults.synchronize()
+        
+        // Keychain
+        let wrapper = KeychainWrapper.standard
+        wrapper.removeObject(forKey: PrefKeychain.Password.rawValue)
+        wrapper.removeObject(forKey: PrefKeychain.GoogleAccessToken.rawValue)
+        wrapper.removeObject(forKey: PrefKeychain.GoogleIdToken.rawValue)
+        
+        // MainScreen
+        
         let singUpViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signUp")
         let appdelegate = UIApplication.shared.delegate as! AppDelegate
         appdelegate.window?.rootViewController = singUpViewController
+        
     }
 }
 
@@ -96,5 +112,4 @@ extension Date{
         
     }
 }
-
 

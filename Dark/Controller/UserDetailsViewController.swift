@@ -10,7 +10,6 @@ import FirebaseAuth
 import Firebase
 import SkyFloatingLabelTextField
 import LGButton
-import SDWebImage
 import DatePickerDialog
 import SwiftDate
 
@@ -48,6 +47,7 @@ class UserDetailsViewController: UIViewController {
     var imageToUploadFileURL : NSURL?
     var imageURL : String?
     var userBirthday : NSNumber?
+    var isUerEditedValue = false
     
     //DATA for chat..USERINFO
     var userInfo : UserDataModel?
@@ -57,6 +57,7 @@ class UserDetailsViewController: UIViewController {
         super.viewDidLoad()
         title = self.userInfo?.name
         self.startLayout()
+        self.setUserInfo()
         self.hideKeyBoardGuesture()
         self.scrollView.canCancelContentTouches = true
         self.scrollView.delaysContentTouches = false
@@ -73,7 +74,7 @@ class UserDetailsViewController: UIViewController {
     }
     
     @objc func ageTextfieldDidTapped(){
-        print("tapped")
+       
         DatePickerDialog().show("BirthDay", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: (Date() - 13.years), minimumDate: (Date() - 99.years), maximumDate: (Date() - 13.years), datePickerMode: .date) { date in
             if let newdate = date {
                 self.userBirthday = newdate.timeIntervalSince1970 as NSNumber
@@ -111,28 +112,31 @@ class UserDetailsViewController: UIViewController {
     
     // ACTIONS
     @IBAction func back(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        guard isUerEditedValue else {
+            self.dismiss(animated: true, completion: nil)
+            return
+        }
+        let alert = UIAlertController(title: "Attention!", message: "Data is not saved", preferredStyle: .alert)
+        let save = UIAlertAction(title: "Save", style: .default) { (alert) in
+            self.saveUserDetails()
+        }
+        let  discard = UIAlertAction(title: "Discard", style: .destructive, handler: {
+            alert in
+             self.dismiss(animated: true, completion: nil)
+        })
+        alert.addAction(discard)
+        alert.addAction(save)
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func save(_ sender: Any) {
-        let name = self.name.text
-        let iam = self.iam.isOn ? Gender.male.rawValue : Gender.female.rawValue
-        let interestedIn = self.interestedIn.isOn ? Gender.male.rawValue : Gender.female.rawValue
-        let user = User(name: name ?? "", age: self.userBirthday as! Int, iam: iam, InterestedIn: interestedIn, profilePicURL : imageURL ?? "")
-        do{
-            let coder = DARKCoder.sharedInstanse
-            let object = try coder.encode(user: user)
-            REF_USER.child(self.uid!).child(DARKFirebaseNode.userInformation.rawValue).setValue(object)
-            self.saveUserImage()
-            self.showAlert(title: "Saved", message: "Details saved successfully", buttonText: "OK")
-        }catch{
-            print(error.localizedDescription)
-        }
+        saveUserDetails()
     }
   
 
     @IBAction func edit(_ sender: Any) {
         guard !isCurrentUser() else{
+            self.isUerEditedValue = true
             self.editLayout()
             self.name.becomeFirstResponder()
             return
@@ -143,9 +147,26 @@ class UserDetailsViewController: UIViewController {
     @IBAction func upload(_ sender: Any) {
         self.showImagePicker(imagePicker: imagePicker!)
     }
-    
    
     // CUSTOM METHOD
+    
+    func saveUserDetails (){
+        let name = self.name.text
+        let iam = self.iam.isOn ? Gender.male.rawValue : Gender.female.rawValue
+        let interestedIn = self.interestedIn.isOn ? Gender.male.rawValue : Gender.female.rawValue
+        let user = User(name: name ?? "", age: self.userBirthday as! Double, iam: iam, InterestedIn: interestedIn, profilePicURL : imageURL ?? "")
+        do{
+            let coder = DARKCoder.sharedInstanse
+            let object = try coder.encode(user: user)
+            REF_USER.child(self.uid!).child(DARKFirebaseNode.userInformation.rawValue).setValue(object)
+            UserDefaults.standard.set(interestedIn, forKey: Preferences.InterestedIn.rawValue)
+            self.saveUserImage()
+            self.showAlert(title: "Saved", message: "Details saved successfully", buttonText: "OK")
+        }catch{
+            print(error.localizedDescription)
+        }
+        self.isUerEditedValue = false
+    }
     func saveUserImage() {
         self.startLayout()
         let profilePicRef = REF_STORAGE.child(self.uid!).child(storageChildNodeName)
@@ -204,13 +225,17 @@ class UserDetailsViewController: UIViewController {
             dst.recieverID = self.userInfo?.uid
         }
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        REF_USER.removeAllObservers()
+    }
 }
 
 // EXTENTIONS
 extension UserDetailsViewController {
     func startLayout(){
-    setUserInfo()
-    self.uploadButton.isHidden = true
+    //self.uploadButton.isHidden = true
     self.name.isEnabled = false
     self.age.isEnabled = false
     self.iam.isEnabled = false
@@ -220,6 +245,7 @@ extension UserDetailsViewController {
             self.genderView.isHidden = true
         }
     }
+    
     func editLayout(){
         self.uploadButton.isHidden = false
         self.name.isEnabled = true
@@ -240,30 +266,47 @@ extension UserDetailsViewController {
             self.age.text = String(year)
         }
         
-        if let iam = self.userInfo?.iam , iam == Gender.male.rawValue{
+        if let mineG = self.userInfo?.iam , mineG == Gender.male.rawValue{
             self.iam.setOn(true, animated: false)
         }else{
             self.iam.setOn(false, animated: false)
         }
         
-        if let interested = self.userInfo?.InterestedIn , interested == Gender.male.rawValue{
-            self.interestedIn.setOn(true, animated: false)
+        if let interested = self.userInfo?.InterestedIn {
+            if  interested == Gender.male.rawValue {
+                self.interestedIn.setOn(true, animated: false)
+            }else{
+                self.interestedIn.setOn(false, animated: false)
+            }
         }else{
-            self.interestedIn.setOn(false, animated: false)
+            if let iam = self.userInfo?.iam , iam == Gender.male.rawValue{
+                self.iam.setOn(false, animated: false)
+            }else{
+                self.iam.setOn(true, animated: false)
+            }
         }
-        self.loadImage(link: self.userInfo?.profilePicURL)
+        self.loadImage()
         self.imageURL = self.userInfo?.profilePicURL
         self.userBirthday = self.userInfo?.age as NSNumber?
     }
     
-    func loadImage(link : String?){
-        let url : URL?
-        if let mylink = link {
-            url = URL(string: mylink)
+    func loadImage(){
+        if let urltSring = self.userInfo?.profilePicURL, urltSring != "", let url = URL(string :urltSring) {
+            ImageCache.sharedInstanse.loadimage(atURL: url, completion: { [weak self] img in
+                if let image = img {
+                    DispatchQueue.main.async {
+                        self?.profileImage.image = image
+                    }
+                }else{
+                    DispatchQueue.main.async {
+                        self?.profileImage.image = UIImage(named: DARKImage.blank.rawValue)
+                    }
+                }
+            })
         }else{
-            url = nil
+            self.profileImage.image = UIImage(named: DARKImage.blank.rawValue)
         }
-        self.profileImage .sd_setImage(with: url , placeholderImage: UIImage(named:DARKImage.blank.rawValue), options:.continueInBackground, progress: nil, completed: nil)
+        
     }
 
 }
@@ -301,8 +344,8 @@ extension UserDetailsViewController : UINavigationControllerDelegate, UIImagePic
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerImageURL] {
-            print(image)
             self.imageToUploadFileURL = image as? NSURL
+            print(image)
         }
         picker.dismiss(animated: true, completion: nil)
     }
