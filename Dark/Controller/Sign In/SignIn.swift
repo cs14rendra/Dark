@@ -165,7 +165,7 @@ class DetailViewController: UIViewController {
         let done = UIAlertAction(title: "OK", style:.default, handler: { action in
             if let field = textfield{
                 if let  email = field.text {
-                    LoginOrSignUpEmail.sharedInstanse.resetPassword(email: email, completion: { error in
+                    PasswordManager().resetPassword(email: email, completion: { error in
                         guard error == nil else {return}
                         self.showAlert(title: "Alert!", message: "Reset link have been sent to \(email)", buttonText: "OK")
                     })

@@ -16,7 +16,7 @@ class UserWithCr {
         return _sharedInstanse
     }
     
-    func SignIn(with credentials : AuthCredential, completion : @escaping (User?, Error?)->()){
+    func SignIn(with credentials : AuthCredential, completion : @escaping (User?,Error?)->()){
         Auth.auth().signIn(with: credentials, completion: { (user, error) in
             guard error == nil else {                completion(user,error)
                 return}
@@ -26,7 +26,7 @@ class UserWithCr {
                 completion(user,error)
                 return}
             
-           completion(user,nil)
+           completion(user,error)
         })
     }
     

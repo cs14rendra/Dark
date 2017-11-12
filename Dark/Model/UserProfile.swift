@@ -15,7 +15,7 @@ class UserProfile {
     static var sharedInstanse : UserProfile{
         return _sharedInstanse
     }
-    func CreateUserProfile(id : String , user : DarkUser, completion: @escaping (Error?)->())throws{
+    func CreateUserProfile(id : String , user : DARKUser, completion: @escaping (Error?)->())throws{
         let object = try DARKCoder.sharedInstanse.encode(user: user)
         REF_USER.child(id).child(DARKFirebaseNode.userInformation.rawValue).setValue(object){
             error , ref in

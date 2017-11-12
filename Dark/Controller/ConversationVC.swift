@@ -13,12 +13,12 @@ import XLPagerTabStrip
 import FirebaseAuth
 import Firebase
 
-private struct Chat{
+ struct Chat{
     var recieverIDfromServer : String
     var timeStamp : Int
     var convID : String
 }
-private enum MessageKey : String{
+enum MessageKey : String{
     case timeStamp
     case recieverID
 }
@@ -71,31 +71,49 @@ class ChatViewController: UIViewController, IndicatorInfoProvider {
     }
     
     func observeChannel(){
-        self.chatList.observe(.childAdded, with: {  [weak self] snapshot in
-            if snapshot.exists(){
-   
-                let convID = snapshot.key as String
-                let value = snapshot.value as! [String : Any]
-                let timeStamp = value[MessageKey.timeStamp.rawValue] as! Int
-                let recieverIDfromServer = value[MessageKey.recieverID.rawValue] as! String
-                let chat = Chat(recieverIDfromServer: recieverIDfromServer, timeStamp: timeStamp, convID: convID)
-                //self?.channel = (self?.channel.sorted {$0.timeStamp > $1.timeStamp})!
-                let a = self?.channel.contains(where: { chat -> Bool in
-                    chat.convID == convID
-                })
-                if let isNewElement = a, isNewElement == false {
-                    DispatchQueue.main.async {
-                        self?.my.beginUpdates()
-                        self?.channel.insert(chat, at: 0)
-                        self?.my.insertRows(at: [IndexPath.init(row:0, section:0)], with: .automatic)
-                        self?.my.endUpdates()
-                    }
-                }
-                
-            }else{
-                print("not exist ")
+        
+        Conversation.sharedInstanse.showConversation(ref: self.chatList) {
+            chats in
+            self.channel = chats
+            self.channel.sort{$0.timeStamp > $1.timeStamp}
+            DispatchQueue.main.async {
+                self.my.reloadData()
             }
-        })
+//            if let isNewElement = a, isNewElement == false {
+//                DispatchQueue.main.async {
+//                    self.my.beginUpdates()
+//                    self?.channel.insert(chat, at: 0)
+//                    self?.my.insertRows(at: [IndexPath.init(row:0, section:0)], with: .automatic)
+//                    self?.my.endUpdates()
+//                }
+//            }
+        }
+//
+//        self.chatList.observe(.childAdded, with: {  [weak self] snapshot in
+//            if snapshot.exists(){
+//
+//                let convID = snapshot.key as String
+//                let value = snapshot.value as! [String : Any]
+//                let timeStamp = value[MessageKey.timeStamp.rawValue] as! Int
+//                let recieverIDfromServer = value[MessageKey.recieverID.rawValue] as! String
+//                let chat = Chat(recieverIDfromServer: recieverIDfromServer, timeStamp: timeStamp, convID: convID)
+//                //self?.channel = (self?.channel.sorted {$0.timeStamp > $1.timeStamp})!
+//                let a = self?.channel.contains(where: { chat -> Bool in
+//                    chat.convID == convID
+//                })
+//                if let isNewElement = a, isNewElement == false {
+//                    DispatchQueue.main.async {
+//                        self?.my.beginUpdates()
+//                        self?.channel.insert(chat, at: 0)
+//                        self?.my.insertRows(at: [IndexPath.init(row:0, section:0)], with: .automatic)
+//                        self?.my.endUpdates()
+//                    }
+//                }
+//
+//            }else{
+//                print("not exist ")
+//            }
+//        })
     }
     
     @objc func cellLongPressed(sender : UILongPressGestureRecognizer){

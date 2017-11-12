@@ -154,7 +154,7 @@ class UserDetailsViewController: UIViewController {
         let name = self.name.text
         let iam = self.iam.isOn ? Gender.male.rawValue : Gender.female.rawValue
         let interestedIn = self.interestedIn.isOn ? Gender.male.rawValue : Gender.female.rawValue
-        let user = DarkUser(name: name ?? "", age: self.userBirthday as! Double, iam: iam, InterestedIn: interestedIn, profilePicURL : imageURL ?? "")
+        let user = DARKUser(name: name ?? "", age: self.userBirthday as! Double, iam: iam, InterestedIn: interestedIn, profilePicURL : imageURL ?? "")
         do{
             let coder = DARKCoder.sharedInstanse
             let object = try coder.encode(user: user)

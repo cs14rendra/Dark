@@ -22,6 +22,7 @@
 		ED3A92531FB83F180094ABCB /* KeyChainManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A92521FB83F180094ABCB /* KeyChainManagement.swift */; };
 		ED3A92551FB8432E0094ABCB /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A92541FB8432E0094ABCB /* UserProfile.swift */; };
 		ED3A92571FB848220094ABCB /* UserWithCr.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A92561FB848220094ABCB /* UserWithCr.swift */; };
+		ED3A92591FB85D400094ABCB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A92581FB85D400094ABCB /* User.swift */; };
 		ED45FD031F86780C00747C07 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD021F86780C00747C07 /* AppDelegate.swift */; };
 		ED45FD051F86780C00747C07 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD041F86780C00747C07 /* SignUp.swift */; };
 		ED45FD081F86780C00747C07 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED45FD061F86780C00747C07 /* Main.storyboard */; };
@@ -30,13 +31,20 @@
 		ED45FD181F86780C00747C07 /* DarkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD171F86780C00747C07 /* DarkTests.swift */; };
 		ED45FD231F86780C00747C07 /* DarkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD221F86780C00747C07 /* DarkUITests.swift */; };
 		ED69B0BF1F888E61003B25A1 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED69B0BE1F888E61003B25A1 /* PageViewController.swift */; };
-		ED69B0C11F88919F003B25A1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED69B0C01F88919F003B25A1 /* ChatViewController.swift */; };
+		ED69B0C11F88919F003B25A1 /* ConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED69B0C01F88919F003B25A1 /* ConversationVC.swift */; };
 		ED7350CC1FA1CA76002E3BDB /* DARKImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7350CB1FA1CA76002E3BDB /* DARKImagePickerViewController.swift */; };
 		ED7DE6771F8E23050060DE2B /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7DE6751F8E23050060DE2B /* GradientView.swift */; };
 		ED7DE6781F8E23050060DE2B /* UILabelX.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7DE6761F8E23050060DE2B /* UILabelX.swift */; };
 		ED7DE67A1F8E3B1B0060DE2B /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED7DE6791F8E3AD30060DE2B /* fontawesome-webfont.ttf */; };
 		ED8904831FA3263400520D48 /* myLocation.gpx in Resources */ = {isa = PBXBuildFile; fileRef = ED8904821FA3263400520D48 /* myLocation.gpx */; };
 		ED8E7A9C1F97C98800395D0A /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8E7A9B1F97C98800395D0A /* APIManager.swift */; };
+		EDA26D2B1FB8A6460040F840 /* UserToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA26D2A1FB8A6460040F840 /* UserToken.swift */; };
+		EDA26D2E1FB8A9B00040F840 /* LogOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA26D2D1FB8A9B00040F840 /* LogOut.swift */; };
+		EDA26D301FB8AAFF0040F840 /* DeleteAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA26D2F1FB8AAFF0040F840 /* DeleteAccount.swift */; };
+		EDA26D321FB8B4490040F840 /* PasswordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA26D311FB8B4490040F840 /* PasswordManager.swift */; };
+		EDA26D351FB8B7FC0040F840 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA26D341FB8B7FC0040F840 /* Messages.swift */; };
+		EDA26D371FB8B84F0040F840 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA26D361FB8B84F0040F840 /* Conversation.swift */; };
+		EDA26D391FB8BC450040F840 /* MessageStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA26D381FB8BC450040F840 /* MessageStatus.swift */; };
 		EDA2CC891F867FCF0061B07B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED5B158E1F867E800061E3EE /* GoogleService-Info.plist */; };
 		EDA2CC8B1F869EDB0061B07B /* UserDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA2CC8A1F869EDB0061B07B /* UserDetailsViewController.swift */; };
 		EDA2CC8E1F86AB730061B07B /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA2CC8D1F86AB730061B07B /* SignIn.swift */; };
@@ -52,7 +60,6 @@
 		EDE08DEF1FA90ACF005D56FB /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE08DEE1FA90ACF005D56FB /* ShadowView.swift */; };
 		EDE5914F1FAB2F8D003FC9EF /* TouchID.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE5914E1FAB2F8D003FC9EF /* TouchID.swift */; };
 		EDE591531FAB4D4E003FC9EF /* UserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EDE591511FAB4D4E003FC9EF /* UserTableViewCell.xib */; };
-		EDE80DDD1F8773560051CED6 /* DarkUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE80DDC1F8773560051CED6 /* DarkUser.swift */; };
 		EDE80E5F1F879E4D0051CED6 /* GeoFire.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E551F879AC30051CED6 /* GeoFire.m */; };
 		EDE80E601F879E4D0051CED6 /* GFBase32Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E571F879AC30051CED6 /* GFBase32Utils.m */; };
 		EDE80E611F879E4D0051CED6 /* GFGeoHash.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E591F879AC30051CED6 /* GFGeoHash.m */; };
@@ -103,6 +110,7 @@
 		ED3A92521FB83F180094ABCB /* KeyChainManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManagement.swift; sourceTree = "<group>"; };
 		ED3A92541FB8432E0094ABCB /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		ED3A92561FB848220094ABCB /* UserWithCr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWithCr.swift; sourceTree = "<group>"; };
+		ED3A92581FB85D400094ABCB /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = ../../../User.swift; sourceTree = "<group>"; };
 		ED45FCFF1F86780B00747C07 /* Dark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED45FD021F86780C00747C07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ED45FD041F86780C00747C07 /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
@@ -118,13 +126,20 @@
 		ED45FD241F86780C00747C07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ED5B158E1F867E800061E3EE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED69B0BE1F888E61003B25A1 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
-		ED69B0C01F88919F003B25A1 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		ED69B0C01F88919F003B25A1 /* ConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationVC.swift; sourceTree = "<group>"; };
 		ED7350CB1FA1CA76002E3BDB /* DARKImagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DARKImagePickerViewController.swift; sourceTree = "<group>"; };
 		ED7DE6751F8E23050060DE2B /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		ED7DE6761F8E23050060DE2B /* UILabelX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelX.swift; sourceTree = "<group>"; };
 		ED7DE6791F8E3AD30060DE2B /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		ED8904821FA3263400520D48 /* myLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text; path = myLocation.gpx; sourceTree = "<group>"; };
 		ED8E7A9B1F97C98800395D0A /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		EDA26D2A1FB8A6460040F840 /* UserToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserToken.swift; sourceTree = "<group>"; };
+		EDA26D2D1FB8A9B00040F840 /* LogOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOut.swift; sourceTree = "<group>"; };
+		EDA26D2F1FB8AAFF0040F840 /* DeleteAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccount.swift; sourceTree = "<group>"; };
+		EDA26D311FB8B4490040F840 /* PasswordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordManager.swift; sourceTree = "<group>"; };
+		EDA26D341FB8B7FC0040F840 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
+		EDA26D361FB8B84F0040F840 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		EDA26D381FB8BC450040F840 /* MessageStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStatus.swift; sourceTree = "<group>"; };
 		EDA2CC8A1F869EDB0061B07B /* UserDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsViewController.swift; sourceTree = "<group>"; };
 		EDA2CC8D1F86AB730061B07B /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		EDB73C9A1F98B5F50086F1C0 /* UserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModel.swift; sourceTree = "<group>"; };
@@ -139,7 +154,6 @@
 		EDE08DEE1FA90ACF005D56FB /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 		EDE5914E1FAB2F8D003FC9EF /* TouchID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchID.swift; sourceTree = "<group>"; };
 		EDE591511FAB4D4E003FC9EF /* UserTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserTableViewCell.xib; sourceTree = "<group>"; };
-		EDE80DDC1F8773560051CED6 /* DarkUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkUser.swift; sourceTree = "<group>"; };
 		EDE80E371F8798000051CED6 /* Dark-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dark-Bridging-Header.h"; sourceTree = "<group>"; };
 		EDE80E4E1F879AC30051CED6 /* GeoFire.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeoFire.h; sourceTree = "<group>"; };
 		EDE80E4F1F879AC30051CED6 /* GFCircleQuery.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GFCircleQuery.h; sourceTree = "<group>"; };
@@ -318,6 +332,36 @@
 			name = UserDetails;
 			sourceTree = "<group>";
 		};
+		EDA26D2C1FB8A86A0040F840 /* UserManagment */ = {
+			isa = PBXGroup;
+			children = (
+				ED3A92541FB8432E0094ABCB /* UserProfile.swift */,
+				ED3A92561FB848220094ABCB /* UserWithCr.swift */,
+				EDA26D2A1FB8A6460040F840 /* UserToken.swift */,
+			);
+			name = UserManagment;
+			sourceTree = "<group>";
+		};
+		EDA26D331FB8B7A50040F840 /* AccountManagment */ = {
+			isa = PBXGroup;
+			children = (
+				EDA26D2D1FB8A9B00040F840 /* LogOut.swift */,
+				EDA26D2F1FB8AAFF0040F840 /* DeleteAccount.swift */,
+				EDA26D311FB8B4490040F840 /* PasswordManager.swift */,
+			);
+			name = AccountManagment;
+			sourceTree = "<group>";
+		};
+		EDA26D3A1FB8BC790040F840 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				EDA26D341FB8B7FC0040F840 /* Messages.swift */,
+				EDA26D381FB8BC450040F840 /* MessageStatus.swift */,
+				EDA26D361FB8B84F0040F840 /* Conversation.swift */,
+			);
+			name = Chat;
+			sourceTree = "<group>";
+		};
 		EDA2CC8C1F86AB5A0061B07B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -374,16 +418,17 @@
 		EDE80DDE1F8774CC0051CED6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				EDE80DDC1F8773560051CED6 /* DarkUser.swift */,
+				ED3A92581FB85D400094ABCB /* User.swift */,
 				EDB7C2BF1FAC73340073BB87 /* UserAnnotation.swift */,
 				EDB7C2BD1FAC70F00073BB87 /* Mapdata.swift */,
 				EDB73C9A1F98B5F50086F1C0 /* UserDataModel.swift */,
 				ED8E7A9B1F97C98800395D0A /* APIManager.swift */,
+				EDA26D3A1FB8BC790040F840 /* Chat */,
 				EDBEB4611FA4AFD200C557C0 /* DARKCoder.swift */,
 				EDDD1DF81FAF0F7B00799A19 /* ImageCache.swift */,
 				ED3A92521FB83F180094ABCB /* KeyChainManagement.swift */,
-				ED3A92541FB8432E0094ABCB /* UserProfile.swift */,
-				ED3A92561FB848220094ABCB /* UserWithCr.swift */,
+				EDA26D331FB8B7A50040F840 /* AccountManagment */,
+				EDA26D2C1FB8A86A0040F840 /* UserManagment */,
 				ED3A92511FB83CB10094ABCB /* SignIn */,
 			);
 			path = Model;
@@ -430,7 +475,7 @@
 		EDF97F0B1F88E861001F7023 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				ED69B0C01F88919F003B25A1 /* ChatViewController.swift */,
+				ED69B0C01F88919F003B25A1 /* ConversationVC.swift */,
 				EDF97F091F88D96F001F7023 /* MessageViewController.swift */,
 			);
 			name = Chat;
@@ -779,10 +824,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDA26D2E1FB8A9B00040F840 /* LogOut.swift in Sources */,
+				EDA26D351FB8B7FC0040F840 /* Messages.swift in Sources */,
 				ED3A924E1FB83C600094ABCB /* LoginUsingTwitter.swift in Sources */,
 				ED7DE6771F8E23050060DE2B /* GradientView.swift in Sources */,
 				ED3A92551FB8432E0094ABCB /* UserProfile.swift in Sources */,
-				EDE80DDD1F8773560051CED6 /* DarkUser.swift in Sources */,
 				ED7350CC1FA1CA76002E3BDB /* DARKImagePickerViewController.swift in Sources */,
 				EDA2CC8B1F869EDB0061B07B /* UserDetailsViewController.swift in Sources */,
 				EDE08DEF1FA90ACF005D56FB /* ShadowView.swift in Sources */,
@@ -790,10 +836,13 @@
 				EDE80E651F87AF470051CED6 /* UserViewController.swift in Sources */,
 				EDE80E631F879E4D0051CED6 /* GFQuery.m in Sources */,
 				EDBEB4621FA4AFD200C557C0 /* DARKCoder.swift in Sources */,
+				EDA26D2B1FB8A6460040F840 /* UserToken.swift in Sources */,
 				EDB7C2BE1FAC70F00073BB87 /* Mapdata.swift in Sources */,
 				ED3A924C1FB83C520094ABCB /* LoginUsingFacebook.swift in Sources */,
 				ED3A924A1FB83BC00094ABCB /* LoginOrSignUpEmail.swift in Sources */,
+				EDA26D321FB8B4490040F840 /* PasswordManager.swift in Sources */,
 				EDDD1DF91FAF0F7C00799A19 /* ImageCache.swift in Sources */,
+				EDA26D301FB8AAFF0040F840 /* DeleteAccount.swift in Sources */,
 				ED111C2D1F8EA690004AF0AB /* GlobalMethods.swift in Sources */,
 				ED1739161F9A622B00053332 /* CustomSwitch.swift in Sources */,
 				ED111C2B1F8E7AE3004AF0AB /* SegueAnimation.swift in Sources */,
@@ -808,13 +857,15 @@
 				EDB7C2C01FAC73340073BB87 /* UserAnnotation.swift in Sources */,
 				EDE80E671F87AFF70051CED6 /* UserCell.swift in Sources */,
 				EDA2CC8E1F86AB730061B07B /* SignIn.swift in Sources */,
-				ED69B0C11F88919F003B25A1 /* ChatViewController.swift in Sources */,
+				ED69B0C11F88919F003B25A1 /* ConversationVC.swift in Sources */,
 				EDF97F0A1F88D96F001F7023 /* MessageViewController.swift in Sources */,
 				EDE08DED1FA85979005D56FB /* PopUp.swift in Sources */,
 				EDE5914F1FAB2F8D003FC9EF /* TouchID.swift in Sources */,
 				EDB73C9B1F98B5F50086F1C0 /* UserDataModel.swift in Sources */,
 				ED69B0BF1F888E61003B25A1 /* PageViewController.swift in Sources */,
+				EDA26D371FB8B84F0040F840 /* Conversation.swift in Sources */,
 				EDBEB4641FA5067600C557C0 /* SettingsViewController.swift in Sources */,
+				EDA26D391FB8BC450040F840 /* MessageStatus.swift in Sources */,
 				EDE80E601F879E4D0051CED6 /* GFBase32Utils.m in Sources */,
 				ED3A92571FB848220094ABCB /* UserWithCr.swift in Sources */,
 				ED8E7A9C1F97C98800395D0A /* APIManager.swift in Sources */,
@@ -822,6 +873,7 @@
 				ED3A92501FB83C6D0094ABCB /* LoginUsingGoogle.swift in Sources */,
 				ED2258B31F8B4DAF00C1BCD6 /* Constants.swift in Sources */,
 				EDB7C2BC1FAC5C230073BB87 /* MapViewController.swift in Sources */,
+				ED3A92591FB85D400094ABCB /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

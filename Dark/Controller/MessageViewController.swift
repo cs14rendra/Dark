@@ -11,12 +11,12 @@ import  JSQMessagesViewController
 import Firebase
 import FirebaseDatabase
 
-private struct ChatMetaData : Codable{
+ struct ChatMetaData : Codable{
     var timeStamp  : Int
     var recieverID : String
 }
 
-private enum MessageItem : String{
+ enum MessageItem : String{
     case senderId
     case senderName
     case text
@@ -139,6 +139,7 @@ class MessageViewController: JSQMessagesViewController {
         }
         return cell
     }
+    
     private func addMessage(withId id: String, name: String, text: String) {
         if let message = JSQMessage(senderId: id, displayName: name, text: text) {
             messages.append(message)
@@ -155,47 +156,44 @@ class MessageViewController: JSQMessagesViewController {
         }
     }
     
+    override func didPressAccessoryButton(_ sender: UIButton!) {
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
+        self.sendNewMessage(text: text)
+        self.setNewMessageBadge()
+        self.setNewConversation()
+        finishSendingMessage()
+        self.isTyping = false
+        JSQSystemSoundPlayer.jsq_playMessageSentSound()
+    }
+    
+    func sendNewMessage(text : String){
         let itemRef = messageRef.childByAutoId()
         let messageItem = [
             MessageItem.senderId.rawValue: senderId,
             MessageItem.senderName.rawValue: senderDisplayName!,
-            MessageItem.text.rawValue: text!,
+            MessageItem.text.rawValue: text,
             ]
-        itemRef.setValue(messageItem)
-        // TODO: SET new message : true
-    
-        let isNewMessageData = ["\(self.senderId!)" : false , "\(self.recieverID!)": true ]
-        self.isNewMessageRef.setValue(isNewMessageData)
-        JSQSystemSoundPlayer.jsq_playMessageSentSound()
-        finishSendingMessage()
-        if !isRunOneTime{
-            let senderChatref = REF_USER.child(senderId).child(DARKFirebaseNode.userchatList.rawValue).child(self.convID!)
-            let recieverChatref = REF_USER.child(recieverID!).child(DARKFirebaseNode.userchatList.rawValue).child(self.convID!)
-            let serderChatMetaData = ChatMetaData(timeStamp: Int(Date().timeIntervalSince1970), recieverID: self.recieverID!)
-            let recieverChatMetaData = ChatMetaData(timeStamp: Int(Date().timeIntervalSince1970), recieverID: self.senderId!)
-            
-            let encoder = JSONEncoder()
-            do{
-                let temp1 = try encoder.encode(serderChatMetaData)
-                let object1 = try JSONSerialization.jsonObject(with: temp1, options: .mutableContainers)
-                senderChatref.setValue(object1)
-                // for Reciever
-                let temp2 = try encoder.encode(recieverChatMetaData)
-                let object2 = try JSONSerialization.jsonObject(with: temp2, options: .mutableContainers)
-                 recieverChatref.setValue(object2)
-                self.isRunOneTime = true
-                
-            }catch{
-                print(error.localizedDescription)
-            }
-
-        }
-        self.isTyping = false
+        Messages.sharedInstanse.createMessage(ref: itemRef, message: messageItem)
     }
     
-    override func didPressAccessoryButton(_ sender: UIButton!) {
-        self.present(imagePicker, animated: true, completion: nil)
+    func setNewMessageBadge(){
+        let isNewMessageData = ["\(self.senderId!)" : false , "\(self.recieverID!)": true ]
+        MessageStatus.sharedInstanse.setNewMessageBadgeforReciever(newMessgeBadgeRef: isNewMessageRef, data: isNewMessageData)
+    }
+    
+    func setNewConversation(){
+        let senderChatref = REF_USER.child(senderId).child(DARKFirebaseNode.userchatList.rawValue).child(self.convID!)
+        let recieverChatref = REF_USER.child(recieverID!).child(DARKFirebaseNode.userchatList.rawValue).child(self.convID!)
+        let serderChatMetaData = ChatMetaData(timeStamp: Int(Date().timeIntervalSince1970), recieverID: self.recieverID!)
+        let recieverChatMetaData = ChatMetaData(timeStamp: Int(Date().timeIntervalSince1970), recieverID: self.senderId!)
+        do {
+            try Conversation.sharedInstanse.setNewConversation(recieverHandle: recieverChatref, senderHandle: senderChatref, senderChatData: serderChatMetaData, recieverChatData: recieverChatMetaData)
+        }catch{
+            print(error.localizedDescription)
+        }
     }
     
     private func observeMessages() {

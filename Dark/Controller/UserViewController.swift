@@ -70,7 +70,8 @@ class UserViewController: UIViewController, IndicatorInfoProvider {
         self.requestAuthorization()
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        Auth.auth().currentUser?.getIDToken(completion: { token, error in
+        let user = Auth.auth().currentUser
+        UserToken.sharedInstanse.getUserToken(foruser: user) { (token, error) in
             guard error != nil else {return}
             if let errorCode = AuthErrorCode(rawValue: error!._code){
                 switch errorCode {
@@ -78,15 +79,16 @@ class UserViewController: UIViewController, IndicatorInfoProvider {
                     self.showAlert(title: "Error!", message: "User need to login again", buttonText: "OK")
                     self.resetApp()
                     
-               case .userDisabled :
+                case .userDisabled :
                     self.showAlert(title: "Error!", message: "User Account Disabled", buttonText: "OK")
                     self.resetApp()
-          
+                    
                 default : break
                     
                 }
             }
-        })
+
+        }
      }
 
     // Custom Method

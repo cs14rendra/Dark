@@ -51,8 +51,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        GIDSignIn.sharedInstance().delegate = self
-        GIDSignIn.sharedInstance().uiDelegate = self
+        
         // Email
         email.iconFont = UIFont(name: "FontAwesome", size: 25)
         email.iconText = "\u{f007}"
@@ -131,7 +130,7 @@ class ViewController: UIViewController {
         self.clearTextFieldsIfnotSignUpUsingEmail()
         LoginUsingFacebook.sharedInstanse.login(context: self, onSuccess: { (accessToken) in
             let credentials = FacebookAuthProvider.credential(withAccessToken: accessToken)
-            UserWithCr.sharedInstanse.SignIn(with: credentials, completion: { error in
+            UserWithCr.sharedInstanse.SignIn(with: credentials, completion: { user, error in
                 guard error == nil else {
                     self.handleAuthError(error: error!)
                     return
@@ -160,7 +159,7 @@ class ViewController: UIViewController {
                     self.url = picURL
                 }, onFailure: { (error) in })
             }
-            UserWithCr.sharedInstanse.SignIn(with: credentials, completion: { (error) in
+            UserWithCr.sharedInstanse.SignIn(with: credentials, completion: { (user,error) in
                 guard error == nil else {
                     self.handleAuthError(error: error!)
                     return}
@@ -183,7 +182,40 @@ class ViewController: UIViewController {
     
     @IBAction func google(_ sender: Any) {
         self.clearTextFieldsIfnotSignUpUsingEmail()
-        GIDSignIn.sharedInstance().signIn()
+//        GIDSignIn.sharedInstance().delegate = self
+//        GIDSignIn.sharedInstance().uiDelegate = self
+//        GIDSignIn.sharedInstance().signIn()
+         LoginUsingGoogle.sharedInstanse.login()
+         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.onGoogleNotification(notification:)), name: LoginUsingGoogle.notificationName, object: nil)
+    }
+    @objc func onGoogleNotification(notification : Notification){
+        let userInfo = notification.userInfo as! [String :Any]
+        guard let _ = userInfo["error"]  else {
+            return
+        }
+        let user : GIDGoogleUser? =  userInfo["user"] as? GIDGoogleUser
+        guard let authentication = user?.authentication else {return}
+        let credentials = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
+        UserWithCr.sharedInstanse.SignIn(with: credentials) { user, error in
+            guard error == nil else {
+                self.handleAuthError(error: error!)
+                return
+            }
+            self.name = user?.displayName
+            if let urlString  =  user?.photoURL {
+                self.url = String(describing: urlString)
+            }
+            let uid = Auth.auth().currentUser?.uid
+            guard uid != nil else {return}
+            
+            UserWithCr.sharedInstanse.isUserExist(withUID: uid!, completion: { (isExist) in
+                if isExist{
+                    self.performSegueTomainPage()
+                    }else{
+                        self.openPopToAskBirthDayandGenderType()
+                    }
+            })
+        }
     }
     
     @IBAction func okButton(_ sender: Any) {
@@ -246,7 +278,7 @@ class ViewController: UIViewController {
     func createUserProfileandPerformSegue(){
         guard let age = self.userBirthDay , let gender = self.genderType else {return}
         print(age)
-        let user = User(name: self.name, age: age, iam: gender, InterestedIn: nil, profilePicURL: self.url)
+        let user = DARKUser(name: self.name, age: age, iam: gender, InterestedIn: nil, profilePicURL: self.url)
         if let currentUID = Auth.auth().currentUser?.uid{
             do {
                 try UserProfile.sharedInstanse.CreateUserProfile(id: currentUID, user: user, completion: { (error) in
@@ -321,36 +353,37 @@ extension ViewController : PopDelegate{
     }
 }
 
+//
+//extension ViewController : GIDSignInDelegate, GIDSignInUIDelegate{
+//
+//    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+//        guard error == nil else {return}
+//        guard let authentication = user.authentication else {return }
+//
+//        let credentials = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
+//        Auth.auth().signIn(with: credentials) { (user, error) in
+//            guard error == nil else {
+//                self.handleAuthError(error: error!)
+//                return
+//            }
+//            self.name = user?.displayName
+//            if let urlString  =  user?.photoURL {
+//                self.url = String(describing: urlString)
+//            }
+//            let uid = Auth.auth().currentUser?.uid
+//            guard uid != nil else {return}
+//
+//            self.keyWrapper.set(authentication.idToken, forKey: PrefKeychain.GoogleIdToken.rawValue)
+//            self.keyWrapper.set(authentication.accessToken, forKey: PrefKeychain.GoogleAccessToken.rawValue)
+//
+//            REF_USER.child(uid!).observeSingleEvent(of: .value) { snapshot in
+//                if snapshot.exists(){
+//                    self.performSegueTomainPage()
+//                }else{
+//                    self.openPopToAskBirthDayandGenderType()
+//                }
+//            }
+//        }
+//    }
+//}
 
-extension ViewController : GIDSignInDelegate, GIDSignInUIDelegate{
-    
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-        guard error == nil else {return}
-        guard let authentication = user.authentication else {return }
-        
-        let credentials = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-        Auth.auth().signIn(with: credentials) { (user, error) in
-            guard error == nil else {
-                self.handleAuthError(error: error!)
-                return
-            }
-            self.name = user?.displayName
-            if let urlString  =  user?.photoURL {
-                self.url = String(describing: urlString)
-            }
-            let uid = Auth.auth().currentUser?.uid
-            guard uid != nil else {return}
-            
-            self.keyWrapper.set(authentication.idToken, forKey: PrefKeychain.GoogleIdToken.rawValue)
-            self.keyWrapper.set(authentication.accessToken, forKey: PrefKeychain.GoogleAccessToken.rawValue)
-            
-            REF_USER.child(uid!).observeSingleEvent(of: .value) { snapshot in
-                if snapshot.exists(){
-                    self.performSegueTomainPage()
-                }else{
-                    self.openPopToAskBirthDayandGenderType()
-                }
-            }
-        }
-    }
-}

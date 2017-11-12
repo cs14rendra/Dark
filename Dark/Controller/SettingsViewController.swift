@@ -8,9 +8,6 @@
 
 import UIKit
 import FirebaseAuth
-import FBSDKLoginKit
-import TwitterKit
-import GoogleSignIn
 import SwiftKeychainWrapper
 import LocalAuthentication
 
@@ -26,6 +23,9 @@ class SettingsViewController: UIViewController {
     let currentUser = Auth.auth().currentUser
     let wrapper = KeychainWrapper.standard
     let context = LAContext()
+    let logoutManager = LogOut()
+    let deleteManager = DeleteAccount()
+    let passwordManager = PasswordManager()
     
     
     @IBOutlet var distanceSlider: UISlider!
@@ -98,23 +98,10 @@ class SettingsViewController: UIViewController {
 // EXTENSION
 extension SettingsViewController {
     func logOut() throws{
-        
-            try  Auth.auth().signOut()
-            // Facebook
-            if let _ = FBSDKAccessToken.current(){
-                FBSDKLoginManager().logOut()
-                FBSDKAccessToken.setCurrent(nil)
-                FBSDKProfile.setCurrent(nil)
-            }
-            // Twitter
-            let sessionstore = Twitter.sharedInstance().sessionStore
-            if let userID = sessionstore.session()?.userID {
-                sessionstore.logOutUserID(userID)
-            }
-            // Google
-            if GIDSignIn.sharedInstance().hasAuthInKeychain(){
-                GIDSignIn.sharedInstance().signOut()
-            }
+    try logoutManager.firebaseLogout()
+        logoutManager.FacebookLogout()
+        logoutManager.TwitterLogout()
+        logoutManager.GoogleLogout()
     }
 }
 
@@ -145,16 +132,14 @@ extension SettingsViewController{
             self.showAlert(title: "Error!", message: "Developer Error Email😂😂", buttonText: "OK")
             return
         }
-        var credentials : AuthCredential
-        credentials = EmailAuthProvider.credential(withEmail: email, password: password!)
-        currentUser?.reauthenticate(with: credentials, completion: { error in
+        guard let user = currentUser else {return}
+        deleteManager.deleteAccountOFEmail(user: user, email: email, password: password!) { error in
             guard error == nil else {
                 self.handleAuthError(error: error!)
                 return
             }
-            // Delete User Data
-            self.deleteCurrentUser()
-        })
+            self.resetApp()
+        }
     }
     
     func deleteAccountOfGoogle(){
@@ -165,14 +150,14 @@ extension SettingsViewController{
             self.showAlert(title: "Error!", message: "Developer Error 😂😂", buttonText: "OK")
             return
         }
-        let credentials = GoogleAuthProvider.credential(withIDToken: IdToken!, accessToken: accessToken!)
-        self.currentUser?.reauthenticate(with: credentials, completion: { error in
-            guard error == nil else{
+       guard let user = currentUser else {return}
+        deleteManager.deleteAccountOfGoogle(user: user) { (error) in
+            guard error == nil else {
                 self.handleAuthError(error: error!)
                 return
             }
-            self.deleteCurrentUser()
-        })
+            self.resetApp()
+        }
     }
     func deleteAcoountOfFacebook(){
         let accessToken = wrapper.string(forKey: PrefKeychain.FacebookAccessToken.rawValue)
@@ -180,14 +165,14 @@ extension SettingsViewController{
             self.showAlert(title: "Error!", message: "Developer Error 😂😂", buttonText: "OK")
             return
         }
-        let credentials = FacebookAuthProvider.credential(withAccessToken: accessToken!)
-        self.currentUser?.reauthenticate(with: credentials, completion: { error in
-            guard error == nil else{
+        guard let user = currentUser else {return}
+        deleteManager.deleteAccountOfFacebook(user: user) { (error) in
+            guard error == nil else {
                 self.handleAuthError(error: error!)
                 return
             }
-            self.deleteCurrentUser()
-        })
+            self.resetApp()
+        }
     }
     
     func deleteAccountOfTwitter(){
@@ -198,14 +183,14 @@ extension SettingsViewController{
             self.showAlert(title: "Error!", message: "Developer Error 😂😂", buttonText: "OK")
             return
         }
-        let credentials = TwitterAuthProvider.credential(withToken: AuthToken!, secret: AuthSecrete!)
-        self.currentUser?.reauthenticate(with: credentials, completion: { error in
-            guard error == nil else{
+        guard let user = currentUser else {return}
+        deleteManager.deleteAccountOfTwitter(user: user) { (error) in
+            guard error == nil else {
                 self.handleAuthError(error: error!)
                 return
             }
-            self.deleteCurrentUser()
-        })
+            self.resetApp()
+        }
     }
 }
 
@@ -281,39 +266,33 @@ extension SettingsViewController : UITextFieldDelegate{
             self.showAlert(title: "Error!", message: "No current User", buttonText: "OK ")
             return
         }
-        
-        var credentials : AuthCredential
-        credentials = EmailAuthProvider.credential(withEmail: email, password: oldpasstext)
-        currentUser?.reauthenticate(with: credentials, completion: { error in
+        guard let user = currentUser else {return}
+        self.passwordManager.changePassword(user: user, email: email, password: oldpasstext, newPassword: newpasstext) { (error) in
             guard error == nil else {
                 self.handleAuthError(error: error!)
                 return
             }
-            self.currentUser?.updatePassword(to: newpasstext, completion: { error in
-                guard error == nil else {
-                    self.handleAuthError(error: error!)
-                    return
-                }
-                self.showAlert(title: "Successful", message: "Password Changed Successfully", buttonText: "OK")
-            })
-        })
+            self.showAlert(title: "Successful", message: "Password Changed Successfully", buttonText: "OK")
+        }
+        
     }
     
 }
+//
+//extension SettingsViewController{
+//
+//    func deleteCurrentUser(){
+//        let defaults = UserDefaults.standard
+//        let gender = defaults.string(forKey: Preferences.Gender.rawValue)
+//        REF.child("location").child(gender!).child((self.currentUser?.uid)!).removeValue()
+//        REF_USER.child((self.currentUser?.uid)!).removeValue()
+//        self.currentUser?.delete(completion: { error in
+//            guard error == nil else {
+//                self.showAlert(title: "Error!", message: "Unable to delete Account. Try Again later.", buttonText: "OK")
+//                return
+//            }
+//            self.resetApp()
+//        })
+//    }
+//}
 
-extension SettingsViewController{
-    
-    func deleteCurrentUser(){
-        let defaults = UserDefaults.standard
-        let gender = defaults.string(forKey: Preferences.Gender.rawValue)
-        REF.child("location").child(gender!).child((self.currentUser?.uid)!).removeValue()
-        REF_USER.child((self.currentUser?.uid)!).removeValue()
-        self.currentUser?.delete(completion: { error in
-            guard error == nil else {
-                self.showAlert(title: "Error!", message: "Unable to delete Account. Try Again later.", buttonText: "OK")
-                return
-            }
-            self.resetApp()
-        })
-    }
-}

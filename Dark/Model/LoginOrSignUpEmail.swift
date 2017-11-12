@@ -12,7 +12,6 @@ import FirebaseAuth
 class LoginOrSignUpEmail {
     
     private static let _sharedInstanse = LoginOrSignUpEmail()
-    
     static var sharedInstanse : LoginOrSignUpEmail{
         return _sharedInstanse
     }
@@ -27,12 +26,6 @@ class LoginOrSignUpEmail {
     func loginUser(email:String, password: String,completion:@escaping (Error?)->()){
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
            completion(error)
-        }
-    }
-    
-    func resetPassword(email : String,completion:@escaping (Error?)->()){
-        Auth.auth().sendPasswordReset(withEmail: email) { error in
-            completion(error)
         }
     }
     
