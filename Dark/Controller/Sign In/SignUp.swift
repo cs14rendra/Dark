@@ -129,76 +129,55 @@ class ViewController: UIViewController {
     
     @IBAction func facebook(_ sender: Any) {
         self.clearTextFieldsIfnotSignUpUsingEmail()
-        let loginManager = FBSDKLoginManager()
-        loginManager.logIn(withReadPermissions: nil, from: self) { result, error in
-            guard error == nil else { return }
-            let fbloginresult : FBSDKLoginManagerLoginResult = result!
-        
-            guard !fbloginresult.isCancelled else {return}
-            guard let accessToken = FBSDKAccessToken.current().tokenString else {
-                self.showAlert(title: "Error", message: "Failed Facebook Authentication", buttonText: "OK")
-                return
-            }
-            self.keyWrapper.set(accessToken, forKey: PrefKeychain.FacebookAccessToken.rawValue)
+        LoginUsingFacebook.sharedInstanse.login(context: self, onSuccess: { (accessToken) in
             let credentials = FacebookAuthProvider.credential(withAccessToken: accessToken)
-            Auth.auth().signIn(with: credentials, completion: { (user, error) in
-                guard error == nil else {self.handleAuthError(error: error!);return}
-                
-                let uid = Auth.auth().currentUser?.uid
-                guard uid != nil else {return}
-                
-                REF_USER.child(uid!).observeSingleEvent(of: .value) { snapshot in
-                    if snapshot.exists(){
-                         self.performSegueTomainPage()
+            UserWithCr.sharedInstanse.SignIn(with: credentials, completion: { error in
+                guard error == nil else {
+                    self.handleAuthError(error: error!)
+                    return
+                }
+                let UID = Auth.auth().currentUser?.uid
+                UserWithCr.sharedInstanse.isUserExist(withUID: UID!, completion: { (isExist) in
+                    if isExist{
+                        self.performSegueTomainPage()
                     }else{
                         self.requestFacebookGraphAPI()
                     }
-                }
+                })
             })
-
+        }) { error in
+            self.showAlert(title: "Error!", message: "Unable to Authenticate with facebook", buttonText: "OK")
         }
-        
     }
     
   
     
     @IBAction func twitter(_ sender: Any) {
         self.clearTextFieldsIfnotSignUpUsingEmail()
-        Twitter.sharedInstance().logIn(with: self) { (session, error) in
-            guard error == nil else {
-                print(error!.localizedDescription)
-                return
+        LoginUsingTwitter.sharedInstanse.login(context: self, onSuccess: { uid, credentials in
+            if let id = uid {
+                LoginUsingTwitter.sharedInstanse.getDetalisTwitterClientAPI(id: id, onSuccess: { picURL in
+                    self.url = picURL
+                }, onFailure: { (error) in })
             }
-            guard let accessToken = session?.authToken else {return}
-            guard let accessSecrete = session?.authTokenSecret else {return}
-            
-            self.keyWrapper.set(accessToken, forKey: PrefKeychain.TwitterAuthToken.rawValue)
-            self.keyWrapper.set(accessSecrete, forKey: PrefKeychain.TwitterAuthSecrete.rawValue)
-            let credentials = TwitterAuthProvider.credential(withToken: accessToken, secret: accessSecrete)
-            
-            let twitterClient = TWTRAPIClient(userID: session?.userID)
-            twitterClient.loadUser(withID: (session?.userID)!, completion: { (user, error) in
-                guard error == nil else {return}
-                self.url = user?.profileImageMiniURL
-            })
-            
-            Auth.auth().signIn(with: credentials, completion: { (user, error) in
+            UserWithCr.sharedInstanse.SignIn(with: credentials, completion: { (error) in
                 guard error == nil else {
                     self.handleAuthError(error: error!)
-                    return
-                }
+                    return}
                 let uid = Auth.auth().currentUser?.uid
                 guard uid != nil else {return}
-                
-                REF_USER.child(uid!).observeSingleEvent(of: .value) { snapshot in
-                    if snapshot.exists(){
+                UserWithCr.sharedInstanse.isUserExist(withUID: uid!, completion: { (isExist) in
+                    if isExist{
                         self.performSegueTomainPage()
                     }else{
                         self.openPopToAskBirthDayandGenderType()
                     }
-                }
+                })
+                
             })
             
+        }) { error in
+            self.showAlert(title: "Error", message: "unable to Authenticate using twitter", buttonText: "OK")
         }
     }
     
@@ -219,33 +198,27 @@ class ViewController: UIViewController {
       
         signbutton.isLoading = true
          //Sign UP
-        Auth.auth().createUser(withEmail: emailValue, password: passwordValue) { (user, error) in
-            self.signbutton.isLoading = false
+        LoginOrSignUpEmail.sharedInstanse.createUser(email: emailValue, password: passwordValue) { (error) in
             guard error == nil else {
                 self.handleAuthError(error: error!)
                 return
             }
             self.openPopToAskBirthDayandGenderType()
-         }
+        }
+        
     }
     
     func requestFacebookGraphAPI(){
-        FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"gender,picture,first_name"]).start(){connection,result,error in
-            
-            if  let value = result as? [String : AnyObject]{
-                self.name = value["first_name"] as? String
-                self.genderType = value["gender"] as? String
-                if let a  = value["picture"]{
-                    if let b = a["data"] as? [String:AnyObject]{
-                        self.url = b["url"] as? String
-                    }
-                }
-                DatePickerDialog().show("BirthDay", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: (Date() - 13.years), minimumDate: (Date() - 99.years), maximumDate: (Date() - 13.years), datePickerMode: .date) { date in
-                    if let newdate = date {
-                        let timeinterval  = newdate.timeIntervalSince1970
-                        self.userBirthDay = timeinterval.rounded()
-                        self.createUserProfileandPerformSegue()
-                    }
+        
+        LoginUsingFacebook.sharedInstanse.getDetalisFromGrapAPI { (name, gender, picURL) in
+            self.name = name
+            self.genderType = gender
+            self.url = picURL
+            DatePickerDialog().show("BirthDay", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: (Date() - 13.years), minimumDate: (Date() - 99.years), maximumDate: (Date() - 13.years), datePickerMode: .date) { date in
+                if let newdate = date {
+                    let timeinterval  = newdate.timeIntervalSince1970
+                    self.userBirthDay = timeinterval.rounded()
+                    self.createUserProfileandPerformSegue()
                 }
             }
         }
@@ -256,32 +229,38 @@ class ViewController: UIViewController {
             if let newdate = date {
                 let timeinterval  = newdate.timeIntervalSince1970
                 self.userBirthDay = timeinterval.rounded()
-                let pop = UIStoryboard(name: storyBoardName, bundle: nil).instantiateViewController(withIdentifier: popUpID) as? PopUp
-                pop?.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-                pop?.modalTransitionStyle   =  UIModalTransitionStyle.crossDissolve
-                pop?.delegate = self
-                self.present(pop!, animated: true, completion: nil)
+                
                 
             }
         }
+    }
+    
+    func extra() {
+        let pop = UIStoryboard(name: storyBoardName, bundle: nil).instantiateViewController(withIdentifier: popUpID) as? PopUp
+        pop?.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        pop?.modalTransitionStyle   =  UIModalTransitionStyle.crossDissolve
+        pop?.delegate = self
+        self.present(pop!, animated: true, completion: nil)
     }
     
     func createUserProfileandPerformSegue(){
         guard let age = self.userBirthDay , let gender = self.genderType else {return}
         print(age)
         let user = User(name: self.name, age: age, iam: gender, InterestedIn: nil, profilePicURL: self.url)
-       do{
-             let object = try DARKCoder.sharedInstanse.encode(user: user)
-        REF_USER.child((Auth.auth().currentUser?.uid)!).child(DARKFirebaseNode.userInformation.rawValue).setValue(object)
-        
-             if let pass = self.password.text{
-                if  pass != "" {
-                    keyWrapper.set(pass, forKey: PrefKeychain.Password.rawValue)
-                }
+        if let currentUID = Auth.auth().currentUser?.uid{
+            do {
+                try UserProfile.sharedInstanse.CreateUserProfile(id: currentUID, user: user, completion: { (error) in
+                    guard error == nil else {
+                        self.handleAuthError(error: error!)
+                        return
+                    }
+                    self.performSegueTomainPage()
+                })
+                
+            }catch{
+                print(error.localizedDescription)
             }
-            self.performSegueTomainPage()
-        }catch{
-            print(error.localizedDescription)
+            
         }
     }
     

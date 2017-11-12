@@ -15,6 +15,13 @@
 		ED1739161F9A622B00053332 /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1739151F9A622B00053332 /* CustomSwitch.swift */; };
 		ED1739181F9A6B5200053332 /* GMColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1739171F9A6B5200053332 /* GMColor.swift */; };
 		ED2258B31F8B4DAF00C1BCD6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2258B21F8B4DAF00C1BCD6 /* Constants.swift */; };
+		ED3A924A1FB83BC00094ABCB /* LoginOrSignUpEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A92491FB83BC00094ABCB /* LoginOrSignUpEmail.swift */; };
+		ED3A924C1FB83C520094ABCB /* LoginUsingFacebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A924B1FB83C520094ABCB /* LoginUsingFacebook.swift */; };
+		ED3A924E1FB83C600094ABCB /* LoginUsingTwitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A924D1FB83C600094ABCB /* LoginUsingTwitter.swift */; };
+		ED3A92501FB83C6D0094ABCB /* LoginUsingGoogle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A924F1FB83C6D0094ABCB /* LoginUsingGoogle.swift */; };
+		ED3A92531FB83F180094ABCB /* KeyChainManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A92521FB83F180094ABCB /* KeyChainManagement.swift */; };
+		ED3A92551FB8432E0094ABCB /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A92541FB8432E0094ABCB /* UserProfile.swift */; };
+		ED3A92571FB848220094ABCB /* UserWithCr.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A92561FB848220094ABCB /* UserWithCr.swift */; };
 		ED45FD031F86780C00747C07 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD021F86780C00747C07 /* AppDelegate.swift */; };
 		ED45FD051F86780C00747C07 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD041F86780C00747C07 /* SignUp.swift */; };
 		ED45FD081F86780C00747C07 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED45FD061F86780C00747C07 /* Main.storyboard */; };
@@ -45,7 +52,7 @@
 		EDE08DEF1FA90ACF005D56FB /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE08DEE1FA90ACF005D56FB /* ShadowView.swift */; };
 		EDE5914F1FAB2F8D003FC9EF /* TouchID.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE5914E1FAB2F8D003FC9EF /* TouchID.swift */; };
 		EDE591531FAB4D4E003FC9EF /* UserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EDE591511FAB4D4E003FC9EF /* UserTableViewCell.xib */; };
-		EDE80DDD1F8773560051CED6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE80DDC1F8773560051CED6 /* User.swift */; };
+		EDE80DDD1F8773560051CED6 /* DarkUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE80DDC1F8773560051CED6 /* DarkUser.swift */; };
 		EDE80E5F1F879E4D0051CED6 /* GeoFire.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E551F879AC30051CED6 /* GeoFire.m */; };
 		EDE80E601F879E4D0051CED6 /* GFBase32Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E571F879AC30051CED6 /* GFBase32Utils.m */; };
 		EDE80E611F879E4D0051CED6 /* GFGeoHash.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE80E591F879AC30051CED6 /* GFGeoHash.m */; };
@@ -89,6 +96,13 @@
 		ED1739151F9A622B00053332 /* CustomSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitch.swift; sourceTree = "<group>"; };
 		ED1739171F9A6B5200053332 /* GMColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMColor.swift; sourceTree = "<group>"; };
 		ED2258B21F8B4DAF00C1BCD6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		ED3A92491FB83BC00094ABCB /* LoginOrSignUpEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOrSignUpEmail.swift; sourceTree = "<group>"; };
+		ED3A924B1FB83C520094ABCB /* LoginUsingFacebook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUsingFacebook.swift; sourceTree = "<group>"; };
+		ED3A924D1FB83C600094ABCB /* LoginUsingTwitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUsingTwitter.swift; sourceTree = "<group>"; };
+		ED3A924F1FB83C6D0094ABCB /* LoginUsingGoogle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUsingGoogle.swift; sourceTree = "<group>"; };
+		ED3A92521FB83F180094ABCB /* KeyChainManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManagement.swift; sourceTree = "<group>"; };
+		ED3A92541FB8432E0094ABCB /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		ED3A92561FB848220094ABCB /* UserWithCr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWithCr.swift; sourceTree = "<group>"; };
 		ED45FCFF1F86780B00747C07 /* Dark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED45FD021F86780C00747C07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ED45FD041F86780C00747C07 /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
@@ -125,7 +139,7 @@
 		EDE08DEE1FA90ACF005D56FB /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 		EDE5914E1FAB2F8D003FC9EF /* TouchID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchID.swift; sourceTree = "<group>"; };
 		EDE591511FAB4D4E003FC9EF /* UserTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserTableViewCell.xib; sourceTree = "<group>"; };
-		EDE80DDC1F8773560051CED6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		EDE80DDC1F8773560051CED6 /* DarkUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkUser.swift; sourceTree = "<group>"; };
 		EDE80E371F8798000051CED6 /* Dark-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dark-Bridging-Header.h"; sourceTree = "<group>"; };
 		EDE80E4E1F879AC30051CED6 /* GeoFire.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeoFire.h; sourceTree = "<group>"; };
 		EDE80E4F1F879AC30051CED6 /* GFCircleQuery.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GFCircleQuery.h; sourceTree = "<group>"; };
@@ -198,6 +212,17 @@
 				BF9F90D193FBB6A6256F7AB9 /* Pods-DarkUITests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		ED3A92511FB83CB10094ABCB /* SignIn */ = {
+			isa = PBXGroup;
+			children = (
+				ED3A92491FB83BC00094ABCB /* LoginOrSignUpEmail.swift */,
+				ED3A924B1FB83C520094ABCB /* LoginUsingFacebook.swift */,
+				ED3A924D1FB83C600094ABCB /* LoginUsingTwitter.swift */,
+				ED3A924F1FB83C6D0094ABCB /* LoginUsingGoogle.swift */,
+			);
+			name = SignIn;
 			sourceTree = "<group>";
 		};
 		ED45FCF61F86780B00747C07 = {
@@ -349,13 +374,17 @@
 		EDE80DDE1F8774CC0051CED6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				EDE80DDC1F8773560051CED6 /* User.swift */,
+				EDE80DDC1F8773560051CED6 /* DarkUser.swift */,
 				EDB7C2BF1FAC73340073BB87 /* UserAnnotation.swift */,
 				EDB7C2BD1FAC70F00073BB87 /* Mapdata.swift */,
 				EDB73C9A1F98B5F50086F1C0 /* UserDataModel.swift */,
 				ED8E7A9B1F97C98800395D0A /* APIManager.swift */,
 				EDBEB4611FA4AFD200C557C0 /* DARKCoder.swift */,
 				EDDD1DF81FAF0F7B00799A19 /* ImageCache.swift */,
+				ED3A92521FB83F180094ABCB /* KeyChainManagement.swift */,
+				ED3A92541FB8432E0094ABCB /* UserProfile.swift */,
+				ED3A92561FB848220094ABCB /* UserWithCr.swift */,
+				ED3A92511FB83CB10094ABCB /* SignIn */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -750,8 +779,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED3A924E1FB83C600094ABCB /* LoginUsingTwitter.swift in Sources */,
 				ED7DE6771F8E23050060DE2B /* GradientView.swift in Sources */,
-				EDE80DDD1F8773560051CED6 /* User.swift in Sources */,
+				ED3A92551FB8432E0094ABCB /* UserProfile.swift in Sources */,
+				EDE80DDD1F8773560051CED6 /* DarkUser.swift in Sources */,
 				ED7350CC1FA1CA76002E3BDB /* DARKImagePickerViewController.swift in Sources */,
 				EDA2CC8B1F869EDB0061B07B /* UserDetailsViewController.swift in Sources */,
 				EDE08DEF1FA90ACF005D56FB /* ShadowView.swift in Sources */,
@@ -760,12 +791,15 @@
 				EDE80E631F879E4D0051CED6 /* GFQuery.m in Sources */,
 				EDBEB4621FA4AFD200C557C0 /* DARKCoder.swift in Sources */,
 				EDB7C2BE1FAC70F00073BB87 /* Mapdata.swift in Sources */,
+				ED3A924C1FB83C520094ABCB /* LoginUsingFacebook.swift in Sources */,
+				ED3A924A1FB83BC00094ABCB /* LoginOrSignUpEmail.swift in Sources */,
 				EDDD1DF91FAF0F7C00799A19 /* ImageCache.swift in Sources */,
 				ED111C2D1F8EA690004AF0AB /* GlobalMethods.swift in Sources */,
 				ED1739161F9A622B00053332 /* CustomSwitch.swift in Sources */,
 				ED111C2B1F8E7AE3004AF0AB /* SegueAnimation.swift in Sources */,
 				EDF97F081F88C885001F7023 /* ChatTableViewCell.swift in Sources */,
 				ED7DE6781F8E23050060DE2B /* UILabelX.swift in Sources */,
+				ED3A92531FB83F180094ABCB /* KeyChainManagement.swift in Sources */,
 				ED1739181F9A6B5200053332 /* GMColor.swift in Sources */,
 				ED45FD051F86780C00747C07 /* SignUp.swift in Sources */,
 				ED45FD031F86780C00747C07 /* AppDelegate.swift in Sources */,
@@ -782,8 +816,10 @@
 				ED69B0BF1F888E61003B25A1 /* PageViewController.swift in Sources */,
 				EDBEB4641FA5067600C557C0 /* SettingsViewController.swift in Sources */,
 				EDE80E601F879E4D0051CED6 /* GFBase32Utils.m in Sources */,
+				ED3A92571FB848220094ABCB /* UserWithCr.swift in Sources */,
 				ED8E7A9C1F97C98800395D0A /* APIManager.swift in Sources */,
 				EDE80E5F1F879E4D0051CED6 /* GeoFire.m in Sources */,
+				ED3A92501FB83C6D0094ABCB /* LoginUsingGoogle.swift in Sources */,
 				ED2258B31F8B4DAF00C1BCD6 /* Constants.swift in Sources */,
 				EDB7C2BC1FAC5C230073BB87 /* MapViewController.swift in Sources */,
 			);

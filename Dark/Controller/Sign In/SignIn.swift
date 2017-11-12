@@ -120,15 +120,17 @@ class DetailViewController: UIViewController {
         }
         signIn.isLoading = true
         // Sign In
-        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
-            self.signIn.isLoading = false
+        // TODO : SAVE KEYCHAIN
+        LoginOrSignUpEmail.sharedInstanse.loginUser(email: email, password: password) { error in
             guard error == nil else {
                 self.handleAuthError(error: error!)
                 return
+                
             }
-            self.keyWrapper.set(password, forKey: PrefKeychain.Password.rawValue)
+            self.signIn.isLoading = false
             self.performSegue(withIdentifier: ControllerSegueIdentifire.showDetail.rawValue, sender: self)
         }
+        
     }
     
     func hideKeyboardGuesture(){
@@ -163,7 +165,10 @@ class DetailViewController: UIViewController {
         let done = UIAlertAction(title: "OK", style:.default, handler: { action in
             if let field = textfield{
                 if let  email = field.text {
-                self.resetPassword(email: email)
+                    LoginOrSignUpEmail.sharedInstanse.resetPassword(email: email, completion: { error in
+                        guard error == nil else {return}
+                        self.showAlert(title: "Alert!", message: "Reset link have been sent to \(email)", buttonText: "OK")
+                    })
                 }
             }
         })
@@ -173,15 +178,6 @@ class DetailViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func resetPassword(email : String){
-            Auth.auth().sendPasswordReset(withEmail: email) { error in
-                    guard error == nil else {
-                        self.handleAuthError(error: error!)
-                        return
-                }
-                 self.showAlert(title: "Sent!", message: "Password Reset link has been sent to \(email).", buttonText: "OK")
-            }
-    }
     
     deinit {
         NotificationCenter.default.removeObserver(self)

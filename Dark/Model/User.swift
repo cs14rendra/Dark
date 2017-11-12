@@ -9,7 +9,7 @@
 
 import Foundation
 
-struct User : Codable {
+struct DarkUser : Codable {
     var name : String?
     var age  : Double
     var iam : String

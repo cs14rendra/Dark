@@ -16,7 +16,7 @@ struct UserDataModel : Codable {
     var InterestedIn : String?
     var profilePicURL : String?
     
-    init(id : String, user: User?) {
+    init(id : String, user: DarkUser?) {
         self.uid = id
         self.name = user?.name
         self.age = user?.age
