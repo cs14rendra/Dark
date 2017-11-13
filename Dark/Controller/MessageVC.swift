@@ -6,6 +6,7 @@
 //  Copyright © 2017 weza. All rights reserved.
 //
 
+// TODO: Image is not loading second time
 import UIKit
 import  JSQMessagesViewController
 import Firebase
@@ -197,36 +198,31 @@ class MessageViewController: JSQMessagesViewController {
     }
     
     private func observeMessages() {
-        let messageQuery = messageRef.queryLimited(toLast:25)
         
-         messageQuery.observe(.childAdded, with: { [weak self] (snapshot) -> Void in
-            let messageData = snapshot.value as! Dictionary<String, String>
+        Messages.sharedInstanse.getAllMessagesofKey(messageRef: messageRef) { messageData,key in
             if let id = messageData[MessageItem.senderId.rawValue] as String!, let name = messageData[MessageItem.senderName.rawValue] as String!, let text = messageData[MessageItem.text.rawValue] as String!, text.characters.count > 0 {
-                self?.addMessage(withId: id, name: name, text: text)
-                self?.finishReceivingMessage()
+                self.addMessage(withId: id, name: name, text: text)
+                self.finishReceivingMessage()
               // Decode if message 
             }else if let id = messageData[MessageItem.senderId.rawValue] as String!,
                 let photoURL = messageData[MessageItem.photoURL.rawValue] as String! {
-                if let mediaItem = JSQPhotoMediaItem(maskAsOutgoing: id == self?.senderId) {
-                    self?.addPhotoMessage(withID: id, key: snapshot.key, mediaItem: mediaItem)
+                if let mediaItem = JSQPhotoMediaItem(maskAsOutgoing: id == self.senderId) {
+                    self.addPhotoMessage(withID: id, key: key, mediaItem: mediaItem)
                     if photoURL.hasPrefix(URLPrefix.gs.rawValue) {
-                        self?.fetchImageDataAtURL(photoURL, forMediaItem: mediaItem, clearsPhotoMessageMapOnSuccessForKey: nil)
+                        self.fetchImageDataAtURL(photoURL, forMediaItem: mediaItem, clearsPhotoMessageMapOnSuccessForKey: nil)
                     }
                 }
             }
-        })
+        }
         
-        messageRef.observe(.childChanged, with: { [weak self] (snapshot) in
-            let key = snapshot.key
-            let messageData = snapshot.value as! Dictionary<String, String>
-            
+        Messages.sharedInstanse.updatedImageMessageforKey(messageRef: messageRef) { (messageData, key) in
             if let photoURL = messageData[MessageItem.photoURL.rawValue] as String! {
                 // The photo has been updated.
-                if let mediaItem = self?.photoMessageMap[key] {
-                    self?.fetchImageDataAtURL(photoURL, forMediaItem: mediaItem, clearsPhotoMessageMapOnSuccessForKey: key)
+                if let mediaItem = self.photoMessageMap[key] {
+                    self.fetchImageDataAtURL(photoURL, forMediaItem: mediaItem, clearsPhotoMessageMapOnSuccessForKey: key)
                 }
             }
-        })
+        }
     }
     
     override func textViewDidChange(_ textView: UITextView) {
@@ -236,16 +232,14 @@ class MessageViewController: JSQMessagesViewController {
     }
     func obeserveTyping(){
      self.isUserTypingRef.onDisconnectRemoveValue()
-      userTypingQuery.observe(.value) { [weak self] snapshot in
-            if snapshot.childrenCount == 1 && self?.isTyping == true {return}
-            self?.showTypingIndicator = snapshot.childrenCount > 0
-            self?.scrollToBottom(animated: true)
+
+        MessageStatus.sharedInstanse.isUserTyping(typingquery: userTypingQuery) { typingCount in
+            if typingCount == 1 && self.isTyping == true {return}
+                        self.showTypingIndicator = typingCount > 0
+                        self.scrollToBottom(animated: true)
         }
     }
-    deinit {
-            messageRef.removeAllObservers()
-            isUserTypingRef.removeAllObservers()
-    }
+
 }
 
 extension MessageViewController{
@@ -258,9 +252,13 @@ extension MessageViewController{
             MessageItem.photoURL.rawValue: emptyPhotoURL,
             MessageItem.senderId.rawValue: senderId!
             ]
-        itemRef.setValue(messageItem)
+        itemRef.setValue(messageItem){
+            error, ref in
+            self.setNewConversation()
+        }
+        
         finishSendingMessage()
-        return itemRef.key // conv ID
+        return itemRef.key
     }
     
     func setImageURL(url : String ,forPhotoMessageWithKey key : String){

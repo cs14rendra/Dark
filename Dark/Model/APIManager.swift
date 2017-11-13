@@ -19,6 +19,8 @@ class APIManager {
     private let currentUserPositionInCollectionView = 0
     weak var delegate  : APIManagerDelegate?
     
+    private let group = DispatchGroup()
+    
     func queryUsers(forCurrentuserUID uid: String, onUserRef ref : DatabaseReference, intheRadious radious : Double , userlocation : CLLocation, completion : @escaping (_ users:[UserDataModel])-> ()){
         
         var temp : [String] = [String]()
@@ -29,11 +31,15 @@ class APIManager {
         circleQuery?.observe(.keyEntered, with: { (key, location) in
             temp.append(key!)
             mapdata.append(MapData(key: key, location: location))
+            self.group.enter()
         })
         
         circleQuery?.observeReady({
             circleQuery?.removeAllObservers()
-            if !temp.contains(uid){ temp.insert(uid, at: 0) }
+            if !temp.contains(uid){
+                temp.insert(uid, at: 0)
+                self.group.enter()
+            }
             self.allKeysWithinRange = temp
             self.delegate?.didLoadMapData(mapData: mapdata)
             self.getUsersDetalis(forCurrentuserUID: uid ,forkeys: self.allKeysWithinRange, completion:{ users in
@@ -48,12 +54,9 @@ class APIManager {
     }
     
     private func getUsersDetalis(forCurrentuserUID currrentUserUID : String, forkeys keys : [String], completion : @escaping (_ users:[UserDataModel])-> ()){
-        var isAllValueLoadedTracker  = [Bool]()
         var data = [UserDataModel]()
-        
         for key in keys {
             REF_USER.child(key).child(DARKFirebaseNode.userInformation.rawValue).observeSingleEvent(of: .value) { (snapshot) in
-                
                 if snapshot.exists(){
                     do{
                         let coder = DARKCoder.sharedInstanse
@@ -73,16 +76,13 @@ class APIManager {
                 }else{
                     data.append(UserDataModel(id: key, user: nil))
                 }
-                isAllValueLoadedTracker.append(true)
+                self.group.leave()
             }
         }
-        DispatchQueue(label: "waitforAllOperationtoFinished").async {
-            while(isAllValueLoadedTracker.count < self.allKeysWithinRange.count){
-            }
-            REF_USER.removeAllObservers()
+        self.group.notify(queue: .main) {
+            print("All operation finished")
             completion(data)
         }
-        
     }
 }
 

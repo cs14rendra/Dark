@@ -13,11 +13,11 @@ import XLPagerTabStrip
 import FirebaseAuth
 import Firebase
 
- struct Chat{
-    var recieverIDfromServer : String
-    var timeStamp : Int
-    var convID : String
-}
+// private struct Chat{
+//    var recieverIDfromServer : String
+//    var timeStamp : Int
+//    var convID : String
+//}
 enum MessageKey : String{
     case timeStamp
     case recieverID
@@ -29,6 +29,7 @@ private let reusableCellIdentifire = "Cell"
 private let cellIdetifireXib = "MyCell"
 private let tabName = "Chat"
 private let estimatedHeight : CGFloat = 75
+private let cellnibName = "UserTableViewCell"
 
 class ChatViewController: UIViewController, IndicatorInfoProvider {
     
@@ -49,10 +50,12 @@ class ChatViewController: UIViewController, IndicatorInfoProvider {
         self.observeChannel()
         self.customiseTable()
         self.addPulltoRefresh()
+        self.my.register(UINib(nibName: cellnibName, bundle: nil) , forCellReuseIdentifier: cellIdetifireXib)
     }
     override func didReceiveMemoryWarning() {
         //TODO: delete row when recive warning 
     }
+
     func customiseTable(){
         self.my.tableFooterView = UIView()
         self.my.backgroundColor = UIColor.black
@@ -75,45 +78,12 @@ class ChatViewController: UIViewController, IndicatorInfoProvider {
         Conversation.sharedInstanse.showConversation(ref: self.chatList) {
             chats in
             self.channel = chats
-            self.channel.sort{$0.timeStamp > $1.timeStamp}
+            self.channel.sort{ $0.timeStamp > $1.timeStamp }
+            print(self.channel)
             DispatchQueue.main.async {
                 self.my.reloadData()
             }
-//            if let isNewElement = a, isNewElement == false {
-//                DispatchQueue.main.async {
-//                    self.my.beginUpdates()
-//                    self?.channel.insert(chat, at: 0)
-//                    self?.my.insertRows(at: [IndexPath.init(row:0, section:0)], with: .automatic)
-//                    self?.my.endUpdates()
-//                }
-//            }
         }
-//
-//        self.chatList.observe(.childAdded, with: {  [weak self] snapshot in
-//            if snapshot.exists(){
-//
-//                let convID = snapshot.key as String
-//                let value = snapshot.value as! [String : Any]
-//                let timeStamp = value[MessageKey.timeStamp.rawValue] as! Int
-//                let recieverIDfromServer = value[MessageKey.recieverID.rawValue] as! String
-//                let chat = Chat(recieverIDfromServer: recieverIDfromServer, timeStamp: timeStamp, convID: convID)
-//                //self?.channel = (self?.channel.sorted {$0.timeStamp > $1.timeStamp})!
-//                let a = self?.channel.contains(where: { chat -> Bool in
-//                    chat.convID == convID
-//                })
-//                if let isNewElement = a, isNewElement == false {
-//                    DispatchQueue.main.async {
-//                        self?.my.beginUpdates()
-//                        self?.channel.insert(chat, at: 0)
-//                        self?.my.insertRows(at: [IndexPath.init(row:0, section:0)], with: .automatic)
-//                        self?.my.endUpdates()
-//                    }
-//                }
-//
-//            }else{
-//                print("not exist ")
-//            }
-//        })
     }
     
     @objc func cellLongPressed(sender : UILongPressGestureRecognizer){
@@ -154,7 +124,7 @@ class ChatViewController: UIViewController, IndicatorInfoProvider {
     }
     
     deinit {
-        REF.removeAllObservers()
+        //REF.removeAllObservers()
     }
 }
 
@@ -166,10 +136,8 @@ extension ChatViewController : UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Prevent from Reuse
-        let cell = Bundle.main.loadNibNamed("UserTableViewCell", owner: self, options: nil)?.first as! ChatTableViewCell
-        cell.recieverID = self.channel[indexPath.row].recieverIDfromServer
-        cell.cellconvID = self.channel[indexPath.row].convID
-        cell.selectionStyle = .none
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdetifireXib, for: indexPath) as! ChatTableViewCell
+        cell.chat = self.channel[indexPath.row]
         longPress = UILongPressGestureRecognizer(target: self, action: #selector(cellLongPressed(sender:)))
         cell.addGestureRecognizer(longPress)
        
@@ -187,11 +155,11 @@ extension ChatViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
        let cell = tableView.cellForRow(at: indexPath) as! ChatTableViewCell
-        cell.chatText.font = cell.chatText.font.withSize(17)
+        cell.chatText.font = UIFont(name: "AvenirNext-Regular", size: 17)!
         cell.chatText.textColor = UIColor.white
         let isNewMessageRef : DatabaseReference =  REF_CHAT.child("\(self.channel[indexPath.row].convID)").child(DARKFirebaseNode.newMessage.rawValue).child(self.uid!)
-        isNewMessageRef.setValue(false)
-        
+        MessageStatus.sharedInstanse.diduserReadMessage(havenewMessage: false, ref: isNewMessageRef)
+        self.channel[indexPath.row].isNewMessage = false
         let chatNav = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "chatNav") as! UINavigationController
         let dest = chatNav.viewControllers.first as! MessageViewController
         dest.senderDisplayName = ""
@@ -206,5 +174,8 @@ extension ChatViewController : UITableViewDelegate{
     }
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return estimatedHeight
+    }
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
 }

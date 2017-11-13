@@ -23,6 +23,7 @@ class LogOut{
             FBSDKLoginManager().logOut()
             FBSDKAccessToken.setCurrent(nil)
             FBSDKProfile.setCurrent(nil)
+           
         }
     }
     
@@ -30,12 +31,14 @@ class LogOut{
         let sessionstore = Twitter.sharedInstance().sessionStore
         if let userID = sessionstore.session()?.userID {
             sessionstore.logOutUserID(userID)
+            
         }
     }
     
     func GoogleLogout(){
         if GIDSignIn.sharedInstance().hasAuthInKeychain(){
             GIDSignIn.sharedInstance().signOut()
+            
         }
     }
 }

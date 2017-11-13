@@ -10,13 +10,25 @@ import Foundation
 import FirebaseAuth
 import FirebaseDatabase
 
+class Chat{
+    var recieverIDfromServer : String
+    var timeStamp : Int
+    var convID : String
+    var lastMessage : String?
+    var isNewMessage : Bool?
+    
+    init(recieverID : String,timeStamp: Int,convID: String) {
+        self.recieverIDfromServer = recieverID
+        self.timeStamp = timeStamp
+        self.convID = convID
+    }
+}
+
 class Conversation{
     private static let _sharedInstanse = Conversation()
     static var sharedInstanse : Conversation{
         return _sharedInstanse
     }
-    var lastMessageText : String?
-    
     func setNewConversation(recieverHandle : DatabaseReference, senderHandle: DatabaseReference,senderChatData :ChatMetaData,recieverChatData : ChatMetaData) throws{
         
         let encoder = JSONEncoder()
@@ -30,16 +42,30 @@ class Conversation{
     }
     
     func showConversation(ref: DatabaseReference,completion: @escaping ([Chat])->()){
-        var chats = [Chat]()
-        ref.observe(.childAdded) { (snapshot) in
+        ref.observe(.value) { (snapshot) in
             if snapshot.exists(){
-                let convID = snapshot.key as String
-                let value = snapshot.value as! [String : Any]
-                let timeStamp = value[MessageKey.timeStamp.rawValue] as! Int
-                let recieverIDfromServer = value[MessageKey.recieverID.rawValue] as! String
-                let chat = Chat(recieverIDfromServer: recieverIDfromServer, timeStamp: timeStamp, convID: convID)
-                chats.append(chat)
-                completion(chats)
+                var chats = [Chat]()
+                let operationGroup = DispatchGroup()
+                for item in snapshot.children{
+                    let snap = item as! DataSnapshot
+                    let convID = snap.key as String
+                    let value = snap.value as! [String : Any]
+                    let timeStamp = value[MessageKey.timeStamp.rawValue] as! Int
+                    let recieverIDfromServer = value[MessageKey.recieverID.rawValue] as! String
+                    let chat = Chat(recieverID: recieverIDfromServer, timeStamp: timeStamp, convID: convID)
+                    chats.append(chat)
+                    let messageRef  = REF.child("Chat").child(convID)
+                    operationGroup.enter()
+                    Messages().getLastMessage(conRef: messageRef, completion: { lastMessage,isNewMessage in
+                        chat.lastMessage = lastMessage
+                        chat.isNewMessage = isNewMessage
+                        operationGroup.leave()
+                    })
+                    operationGroup.notify(queue: .main, execute: {
+                        completion(chats)
+                    })
+                }
+                
             }
         }
     }

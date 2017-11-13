@@ -29,9 +29,7 @@ class LoginUsingTwitter{
             guard let accessSecrete = session?.authTokenSecret else {
                 onFailure(error)
                 return}
-            
-//            self.keyWrapper.set(accessToken, forKey: PrefKeychain.TwitterAuthToken.rawValue)
-//            self.keyWrapper.set(accessSecrete, forKey: PrefKeychain.TwitterAuthSecrete.rawValue)
+            KeyChainManagment.sharedInstanse.setTwitterAuthTokenAndSecrete(token: accessToken, secrete: accessSecrete)
             let credentials = TwitterAuthProvider.credential(withToken: accessToken, secret: accessSecrete)
             let uid = session?.userID
             onSuccess(uid, credentials)

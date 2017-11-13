@@ -45,6 +45,7 @@ enum Preferences : String {
 }
 
 enum PrefKeychain : String{
+    case Email
     case Password
     case FacebookAccessToken
     case TwitterAuthToken

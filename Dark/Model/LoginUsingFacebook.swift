@@ -31,6 +31,7 @@ class LoginUsingFacebook {
                 onFailure(error)
                 return
             }
+            KeyChainManagment.sharedInstanse.setfaceBookAccessToken(accessToken: accessToken)
             onSuccess(accessToken)
         }
     }

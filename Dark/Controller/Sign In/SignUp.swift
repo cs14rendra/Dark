@@ -26,8 +26,6 @@ private let popUpID = "popUP"
 
 class ViewController: UIViewController {
 
-   
- 
     @IBOutlet var existing: UIButton!
     @IBOutlet var beclassical: UILabelX!
     @IBOutlet var gbuttton: UIButton!
@@ -39,7 +37,6 @@ class ViewController: UIViewController {
     @IBOutlet var password: SkyFloatingLabelTextFieldWithIcon!
     @IBOutlet var signbutton: LGButton!
  
-    
     var handle : AuthStateDidChangeListenerHandle?
     var activeTextField : UITextField?
     var name : String?
@@ -47,11 +44,9 @@ class ViewController: UIViewController {
     var genderType : String?
     var userBirthDay : Double?
     
-    private let keyWrapper = KeychainWrapper.standard
-    
+    // Controller Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Email
         email.iconFont = UIFont(name: "FontAwesome", size: 25)
         email.iconText = "\u{f007}"
@@ -64,7 +59,6 @@ class ViewController: UIViewController {
         password.iconMarginLeft = 10.0
         password.iconMarginBottom = 5.0
         password.iconColor = UIColor.white.withAlphaComponent(0.3)
-    
         // Notificationns
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardshowed), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardwillhide), name: Notification.Name.UIKeyboardWillHide, object: nil)
@@ -97,35 +91,7 @@ class ViewController: UIViewController {
             self.existing.alpha = 1.0
         }, completion: nil)
     }
-    
-    override var prefersStatusBarHidden: Bool{
-        return true
-    }
-    
-    @objc func keyboardshowed(notifivation : Notification){
-        if  let textField = activeTextField , let keyboardSize = (notifivation.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue{
-            let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-            self.scrollView.contentInset = contentInset
-            self.scrollView.scrollIndicatorInsets = contentInset
-            
-            var aRect = self.view.frame
-            aRect.size.height =  aRect.size.height - keyboardSize.size.height
-            if(!aRect.contains(textField.frame.origin)){
-                self.scrollView.scrollRectToVisible(textField.frame, animated: true)
-                
-            }
-        
-        }
-    }
-    
-    @objc func keyboardwillhide(notification : Notification){
-        let contentInset = UIEdgeInsets.zero
-        self.scrollView.contentInset = contentInset
-        self.scrollView.scrollIndicatorInsets = contentInset
-        
-      
-    }
-    
+    // MARK : Action
     @IBAction func facebook(_ sender: Any) {
         self.clearTextFieldsIfnotSignUpUsingEmail()
         LoginUsingFacebook.sharedInstanse.login(context: self, onSuccess: { (accessToken) in
@@ -182,12 +148,29 @@ class ViewController: UIViewController {
     
     @IBAction func google(_ sender: Any) {
         self.clearTextFieldsIfnotSignUpUsingEmail()
-//        GIDSignIn.sharedInstance().delegate = self
-//        GIDSignIn.sharedInstance().uiDelegate = self
-//        GIDSignIn.sharedInstance().signIn()
          LoginUsingGoogle.sharedInstanse.login()
          NotificationCenter.default.addObserver(self, selector: #selector(ViewController.onGoogleNotification(notification:)), name: LoginUsingGoogle.notificationName, object: nil)
     }
+    
+    @IBAction func okButton(_ sender: Any) {
+        guard let emailValue = email.text, !emailValue.isEmpty  else  {
+            self.showAlert(title: "Error!", message: "Enter Email", buttonText: "OK")
+            return }
+        guard let passwordValue = password.text, !passwordValue.isEmpty else  {
+            self.showAlert(title: "Error!", message: "Enter Password", buttonText: "OK")
+            return }
+        signbutton.isLoading = true
+        LoginOrSignUpEmail.sharedInstanse.createUser(email: emailValue, password: passwordValue) { (error) in
+            self.signbutton.isLoading = false
+            guard error == nil else {
+                self.handleAuthError(error: error!)
+                return
+            }
+            self.openPopToAskBirthDayandGenderType()
+        }
+    }
+   
+    // MARK : @Objc
     @objc func onGoogleNotification(notification : Notification){
         let userInfo = notification.userInfo as! [String :Any]
         guard let _ = userInfo["error"]  else {
@@ -195,6 +178,7 @@ class ViewController: UIViewController {
         }
         let user : GIDGoogleUser? =  userInfo["user"] as? GIDGoogleUser
         guard let authentication = user?.authentication else {return}
+        KeyChainManagment.sharedInstanse.setGoogleIDandAccesToken(ID: authentication.idToken, accessToken: authentication.accessToken)
         let credentials = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
         UserWithCr.sharedInstanse.SignIn(with: credentials) { user, error in
             guard error == nil else {
@@ -207,41 +191,38 @@ class ViewController: UIViewController {
             }
             let uid = Auth.auth().currentUser?.uid
             guard uid != nil else {return}
-            
             UserWithCr.sharedInstanse.isUserExist(withUID: uid!, completion: { (isExist) in
                 if isExist{
                     self.performSegueTomainPage()
-                    }else{
-                        self.openPopToAskBirthDayandGenderType()
-                    }
+                }else{
+                    self.openPopToAskBirthDayandGenderType()
+                }
             })
         }
     }
     
-    @IBAction func okButton(_ sender: Any) {
-        
-        guard let emailValue = email.text, !emailValue.isEmpty  else  {
-            self.showAlert(title: "Error!", message: "Enter Email", buttonText: "OK")
-            return }
-        
-        guard let passwordValue = password.text, !passwordValue.isEmpty else  {
-            self.showAlert(title: "Error!", message: "Enter Password", buttonText: "OK")
-            return }
-      
-        signbutton.isLoading = true
-         //Sign UP
-        LoginOrSignUpEmail.sharedInstanse.createUser(email: emailValue, password: passwordValue) { (error) in
-            guard error == nil else {
-                self.handleAuthError(error: error!)
-                return
+    @objc func keyboardshowed(notifivation : Notification){
+        if  let textField = activeTextField , let keyboardSize = (notifivation.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue{
+            let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+            self.scrollView.contentInset = contentInset
+            self.scrollView.scrollIndicatorInsets = contentInset
+            
+            var aRect = self.view.frame
+            aRect.size.height =  aRect.size.height - keyboardSize.size.height
+            if(!aRect.contains(textField.frame.origin)){
+                self.scrollView.scrollRectToVisible(textField.frame, animated: true)
             }
-            self.openPopToAskBirthDayandGenderType()
         }
-        
     }
     
+    @objc func keyboardwillhide(notification : Notification){
+        let contentInset = UIEdgeInsets.zero
+        self.scrollView.contentInset = contentInset
+        self.scrollView.scrollIndicatorInsets = contentInset
+    }
+    
+    // MARK : Custom Method
     func requestFacebookGraphAPI(){
-        
         LoginUsingFacebook.sharedInstanse.getDetalisFromGrapAPI { (name, gender, picURL) in
             self.name = name
             self.genderType = gender
@@ -261,21 +242,17 @@ class ViewController: UIViewController {
             if let newdate = date {
                 let timeinterval  = newdate.timeIntervalSince1970
                 self.userBirthDay = timeinterval.rounded()
-                
+                let pop = UIStoryboard(name: storyBoardName, bundle: nil).instantiateViewController(withIdentifier: popUpID) as? PopUp
+                pop?.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+                pop?.modalTransitionStyle   =  UIModalTransitionStyle.crossDissolve
+                pop?.delegate = self
+                self.present(pop!, animated: true, completion: nil)
                 
             }
         }
     }
-    
-    func extra() {
-        let pop = UIStoryboard(name: storyBoardName, bundle: nil).instantiateViewController(withIdentifier: popUpID) as? PopUp
-        pop?.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        pop?.modalTransitionStyle   =  UIModalTransitionStyle.crossDissolve
-        pop?.delegate = self
-        self.present(pop!, animated: true, completion: nil)
-    }
-    
-    func createUserProfileandPerformSegue(){
+
+ func createUserProfileandPerformSegue(){
         guard let age = self.userBirthDay , let gender = self.genderType else {return}
         print(age)
         let user = DARKUser(name: self.name, age: age, iam: gender, InterestedIn: nil, profilePicURL: self.url)
@@ -292,7 +269,6 @@ class ViewController: UIViewController {
             }catch{
                 print(error.localizedDescription)
             }
-            
         }
     }
     
@@ -319,20 +295,24 @@ class ViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
         REF.removeAllObservers()
     }
+    
+    
+    // MARK : Ovrriden Method
+    override var prefersStatusBarHidden: Bool{
+        return true
+    }
 }
 
+// Extension
 extension ViewController : UITextFieldDelegate{
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.activeTextField = textField
     }
-    
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.activeTextField = nil
     }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
         if let nextTextField = textField.superview?.viewWithTag(textField.tag+1) as? UITextField{
              nextTextField.becomeFirstResponder()
         }else{
@@ -340,7 +320,6 @@ extension ViewController : UITextFieldDelegate{
         }
         return true
     }
-    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true
     }
@@ -353,37 +332,4 @@ extension ViewController : PopDelegate{
     }
 }
 
-//
-//extension ViewController : GIDSignInDelegate, GIDSignInUIDelegate{
-//
-//    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-//        guard error == nil else {return}
-//        guard let authentication = user.authentication else {return }
-//
-//        let credentials = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-//        Auth.auth().signIn(with: credentials) { (user, error) in
-//            guard error == nil else {
-//                self.handleAuthError(error: error!)
-//                return
-//            }
-//            self.name = user?.displayName
-//            if let urlString  =  user?.photoURL {
-//                self.url = String(describing: urlString)
-//            }
-//            let uid = Auth.auth().currentUser?.uid
-//            guard uid != nil else {return}
-//
-//            self.keyWrapper.set(authentication.idToken, forKey: PrefKeychain.GoogleIdToken.rawValue)
-//            self.keyWrapper.set(authentication.accessToken, forKey: PrefKeychain.GoogleAccessToken.rawValue)
-//
-//            REF_USER.child(uid!).observeSingleEvent(of: .value) { snapshot in
-//                if snapshot.exists(){
-//                    self.performSegueTomainPage()
-//                }else{
-//                    self.openPopToAskBirthDayandGenderType()
-//                }
-//            }
-//        }
-//    }
-//}
 

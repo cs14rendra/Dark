@@ -11,7 +11,6 @@ import UIKit
 
 extension UIViewController {
 
-   
     func setUpImagePicker(delegateProvider : UIViewController) -> UIImagePickerController{
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = delegateProvider as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
@@ -22,6 +21,7 @@ extension UIViewController {
         imagePicker.popoverPresentationController?.sourceView = self.view
         return imagePicker
     }
+    
     func showImagePicker(imagePicker : UIImagePickerController){
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
             present(imagePicker, animated: true, completion: nil)

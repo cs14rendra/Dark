@@ -55,9 +55,7 @@ extension UIViewController{
         
         // Keychain
         let wrapper = KeychainWrapper.standard
-        wrapper.removeObject(forKey: PrefKeychain.Password.rawValue)
-        wrapper.removeObject(forKey: PrefKeychain.GoogleAccessToken.rawValue)
-        wrapper.removeObject(forKey: PrefKeychain.GoogleIdToken.rawValue)
+        _ = wrapper.removeAllKeys()
         
         // MainScreen
         
