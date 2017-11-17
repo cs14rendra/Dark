@@ -8,6 +8,14 @@
 
 import Foundation
 
+struct DARKUser : Codable{
+        var name : String?
+        var age  : Double
+        var iam : String
+        var InterestedIn : String?
+        var profilePicURL : String?
+}
+
 struct UserDataModel : Codable {
     var uid : String
     var name : String?
@@ -25,4 +33,5 @@ struct UserDataModel : Codable {
         self.profilePicURL = user?.profilePicURL
     }
 }
+
 

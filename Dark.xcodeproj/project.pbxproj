@@ -22,7 +22,6 @@
 		ED3A92531FB83F180094ABCB /* KeyChainManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A92521FB83F180094ABCB /* KeyChainManagement.swift */; };
 		ED3A92551FB8432E0094ABCB /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A92541FB8432E0094ABCB /* UserProfile.swift */; };
 		ED3A92571FB848220094ABCB /* UserWithCr.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A92561FB848220094ABCB /* UserWithCr.swift */; };
-		ED3A92591FB85D400094ABCB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3A92581FB85D400094ABCB /* User.swift */; };
 		ED45FD031F86780C00747C07 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD021F86780C00747C07 /* AppDelegate.swift */; };
 		ED45FD051F86780C00747C07 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED45FD041F86780C00747C07 /* SignUp.swift */; };
 		ED45FD081F86780C00747C07 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED45FD061F86780C00747C07 /* Main.storyboard */; };
@@ -110,7 +109,6 @@
 		ED3A92521FB83F180094ABCB /* KeyChainManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManagement.swift; sourceTree = "<group>"; };
 		ED3A92541FB8432E0094ABCB /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		ED3A92561FB848220094ABCB /* UserWithCr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWithCr.swift; sourceTree = "<group>"; };
-		ED3A92581FB85D400094ABCB /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = ../../../User.swift; sourceTree = "<group>"; };
 		ED45FCFF1F86780B00747C07 /* Dark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED45FD021F86780C00747C07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ED45FD041F86780C00747C07 /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
@@ -458,7 +456,6 @@
 		EDE80DDE1F8774CC0051CED6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				ED3A92581FB85D400094ABCB /* User.swift */,
 				EDB7C2BF1FAC73340073BB87 /* UserAnnotation.swift */,
 				EDB7C2BD1FAC70F00073BB87 /* Mapdata.swift */,
 				EDB73C9A1F98B5F50086F1C0 /* UserDataModel.swift */,
@@ -913,7 +910,6 @@
 				ED3A92501FB83C6D0094ABCB /* LoginUsingGoogle.swift in Sources */,
 				ED2258B31F8B4DAF00C1BCD6 /* Constants.swift in Sources */,
 				EDB7C2BC1FAC5C230073BB87 /* MapVC.swift in Sources */,
-				ED3A92591FB85D400094ABCB /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,10 +9,4 @@
 
 import Foundation
 
-struct DarkUser : Codable {
-    var name : String?
-    var age  : Double
-    var iam : String
-    var InterestedIn : String?
-    var profilePicURL : String?
-}
+
