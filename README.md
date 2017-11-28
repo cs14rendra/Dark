@@ -10,7 +10,7 @@ chat to anotehr user.
 ## Installation
 - Make a clone of repo
 - Replace all the keys with your relevant keys
-- setup firebase, and enable twitter, facebook and emmail login
+- setup firebase, and enable twitter, facebook and email login
 
 
 ## Tasks
