@@ -21,6 +21,7 @@ chat to anotehr user.
 - [x] Firebase data modeling for users
 - [x] Add firebase security policies
 - [x] Data model for firebase Chat
+- [x] Push Notifications
 - [x] Mapkit Integration
 - [x] Testing of Retain Cycle and energy Impact using Instrument.
 - [x] User cache and Neteork Connection handling
